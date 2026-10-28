@@ -1,4 +1,4 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.0
 import PackageDescription
 
 // PlayItRight core: platform-neutral SPM packages (ARCH-P2, ARCH-7).
@@ -26,7 +26,17 @@ let package = Package(
         ),
         .testTarget(
             name: "LibraryCoreTests",
-            dependencies: ["LibraryCore"]
+            dependencies: ["LibraryCore"],
+            swiftSettings: [
+                .unsafeFlags(["-F/Library/Developer/CommandLineTools/Library/Developer/Frameworks"])
+            ],
+            linkerSettings: [
+                .unsafeFlags([
+                    "-F/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+                    "-Xlinker", "-rpath", "-Xlinker", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+                    "-Xlinker", "-rpath", "-Xlinker", "/Library/Developer/CommandLineTools/Library/Developer/usr/lib"
+                ])
+            ]
         )
     ]
 )
