@@ -90,6 +90,21 @@ public final class MediaDatabase: Sendable {
         )
     }
 
+    /// Opens the database configured for the specified environment (dev, test, prod).
+    public static func open(
+        environment: AppEnvironment = .current,
+        searchDirectory: URL? = nil
+    ) throws -> MediaDatabase {
+        let envConfig = EnvironmentConfiguration(environment: environment, searchDirectory: searchDirectory)
+        let dbConfig = envConfig.makeDatabaseConfiguration()
+
+        if envConfig.isInMemoryDatabase || envConfig.databaseURL == nil {
+            return try MediaDatabase.inMemory(configuration: dbConfig)
+        } else {
+            return try MediaDatabase.open(at: envConfig.databaseURL!, configuration: dbConfig)
+        }
+    }
+
     /// Creates an in-memory database for testing or ephemeral operations.
     public static func inMemory(
         configuration: MediaDatabaseConfiguration = MediaDatabaseConfiguration()
