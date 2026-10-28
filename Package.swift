@@ -1,0 +1,32 @@
+// swift-tools-version: 5.10
+import PackageDescription
+
+// PlayItRight core: platform-neutral SPM packages (ARCH-P2, ARCH-7).
+// The tvOS app shell consumes these; macOS/iOS builds exist for CI + companion.
+let package = Package(
+    name: "PlayItRightCore",
+    platforms: [
+        .macOS(.v14),
+        .iOS(.v17),
+        .tvOS(.v17)
+    ],
+    products: [
+        .library(name: "LibraryCore", targets: ["LibraryCore"])
+    ],
+    dependencies: [
+        // SQLite with FTS5/JSON1; the on-device media database engine (doc 02, design 01).
+        .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.0.0")
+    ],
+    targets: [
+        .target(
+            name: "LibraryCore",
+            dependencies: [
+                .product(name: "GRDB", package: "GRDB.swift")
+            ]
+        ),
+        .testTarget(
+            name: "LibraryCoreTests",
+            dependencies: ["LibraryCore"]
+        )
+    ]
+)
