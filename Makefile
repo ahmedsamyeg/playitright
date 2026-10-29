@@ -14,7 +14,7 @@ export PLAYITRIGHT_ENV ?= $(ENV)
 # Resolved database paths per environment
 DB_DIR ?= db/$(ENV)
 DB_FILE ?= $(if $(PLAYITRIGHT_DB_PATH),$(if $(filter :memory:,$(PLAYITRIGHT_DB_PATH)),$(DB_DIR)/library.db,$(PLAYITRIGHT_DB_PATH)),$(DB_DIR)/library.db)
-SCHEMA_FILE ?= schema.sql
+SCHEMA_FILE ?= db/schema.sql
 
 # Toolchain flags for Swift Testing on macOS CommandLineTools
 CLT_FRAMEWORKS ?= /Library/Developer/CommandLineTools/Library/Developer/Frameworks
