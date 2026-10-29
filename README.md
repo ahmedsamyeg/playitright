@@ -37,7 +37,8 @@ PlayItRight plays anything you own or stream:
 | [docs/specs/appendix-a-infuse-reference.md](<docs/specs/appendix-a-infuse-reference.md>) | Infuse reference specs (extracted from firecore.com) |
 | [docs/design/README.md](<docs/design/README.md>) | Design index (implementation how; specs are the what) |
 | [docs/design/01-media-database.md](<docs/design/01-media-database.md>) | Media database design: on-device storage, full DDL, concurrency, migrations, recovery, query catalog, tests |
+| [docs/IMPLEMENTATION_PLAN.md](<docs/IMPLEMENTATION_PLAN.md>) | Master Implementation Plan & Agent Tracking System |
 
 ## Status
 
-Specification phase. No source code yet. See [docs/specs/10-roadmap.md](<docs/specs/10-roadmap.md>) for the delivery plan, starting with de-risking spikes (Apple capability probing, FFmpeg bundling, in-process file protocols).
+Phase 1 (MVP Alpha) implementation in progress. `LibraryCore` on-device SQLite database engine, migrations, FTS5 search, reader, and writer are implemented and verified. For detailed progress, workstreams, and tasks, consult [docs/IMPLEMENTATION_PLAN.md](<docs/IMPLEMENTATION_PLAN.md>).
