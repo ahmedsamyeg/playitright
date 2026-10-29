@@ -11,7 +11,8 @@ let package = Package(
         .tvOS(.v17)
     ],
     products: [
-        .library(name: "LibraryCore", targets: ["LibraryCore"])
+        .library(name: "LibraryCore", targets: ["LibraryCore"]),
+        .library(name: "PlaybackSpike", targets: ["PlaybackSpike"])
     ],
     dependencies: [
         // SQLite with FTS5/JSON1; the on-device media database engine (doc 02, design 01).
@@ -24,9 +25,27 @@ let package = Package(
                 .product(name: "GRDB", package: "GRDB.swift")
             ]
         ),
+        .target(
+            name: "PlaybackSpike",
+            dependencies: []
+        ),
         .testTarget(
             name: "LibraryCoreTests",
             dependencies: ["LibraryCore"],
+            swiftSettings: [
+                .unsafeFlags(["-F/Library/Developer/CommandLineTools/Library/Developer/Frameworks"])
+            ],
+            linkerSettings: [
+                .unsafeFlags([
+                    "-F/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+                    "-Xlinker", "-rpath", "-Xlinker", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+                    "-Xlinker", "-rpath", "-Xlinker", "/Library/Developer/CommandLineTools/Library/Developer/usr/lib"
+                ])
+            ]
+        ),
+        .testTarget(
+            name: "PlaybackSpikeTests",
+            dependencies: ["PlaybackSpike"],
             swiftSettings: [
                 .unsafeFlags(["-F/Library/Developer/CommandLineTools/Library/Developer/Frameworks"])
             ],
