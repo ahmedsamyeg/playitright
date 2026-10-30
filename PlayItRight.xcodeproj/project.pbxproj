@@ -6,6 +6,13 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AA0000000000000000000018 /* LibraryCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000010 /* LibraryCore.framework */; };
+		AA0000000000000000000019 /* LibraryCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000010 /* LibraryCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AA000000000000000000001D /* LibraryCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000010 /* LibraryCore.framework */; };
+		AA0000000000000000000023 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000022 /* GRDB */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		2EE134B23093B89F00195768 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,9 +28,38 @@
 			remoteGlobalIDString = 2EE1349E3093B89E00195768;
 			remoteInfo = PlayItRight;
 		};
+		AA000000000000000000001C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2EE134973093B89E00195768 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000000011;
+			remoteInfo = LibraryCore;
+		};
+		AA000000000000000000001F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2EE134973093B89E00195768 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000000011;
+			remoteInfo = LibraryCore;
+		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		AA000000000000000000001A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AA0000000000000000000019 /* LibraryCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		AA0000000000000000000010 /* LibraryCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LibraryCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EE1349F3093B89E00195768 /* PlayItRight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayItRight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EE134B13093B89F00195768 /* PlayItRightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayItRightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EE134BB3093B89F00195768 /* PlayItRightUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayItRightUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,22 +81,40 @@
 			path = PlayItRightUITests;
 			sourceTree = "<group>";
 		};
+		AA0000000000000000000020 /* LibraryCore */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Libraries/LibraryCore;
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000024 /* PlaybackSpike */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Libraries/PlaybackSpike;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		2EE1349C3093B89E00195768 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				AA0000000000000000000018 /* LibraryCore.framework in Frameworks */,
 			);
 		};
 		2EE134AE3093B89F00195768 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				AA000000000000000000001D /* LibraryCore.framework in Frameworks */,
 			);
 		};
 		2EE134B83093B89F00195768 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+			);
+		};
+		AA0000000000000000000013 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				AA0000000000000000000023 /* GRDB in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -72,6 +126,8 @@
 				2EE134A13093B89E00195768 /* PlayItRight */,
 				2EE134B43093B89F00195768 /* PlayItRightTests */,
 				2EE134BE3093B89F00195768 /* PlayItRightUITests */,
+				AA0000000000000000000020 /* LibraryCore */,
+				AA0000000000000000000024 /* PlaybackSpike */,
 				2EE134A03093B89E00195768 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -82,6 +138,7 @@
 				2EE1349F3093B89E00195768 /* PlayItRight.app */,
 				2EE134B13093B89F00195768 /* PlayItRightTests.xctest */,
 				2EE134BB3093B89F00195768 /* PlayItRightUITests.xctest */,
+				AA0000000000000000000010 /* LibraryCore.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,6 +146,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AA0000000000000000000011 /* LibraryCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000000000000000000015 /* Build configuration list for PBXNativeTarget "LibraryCore" */;
+			buildPhases = (
+				AA0000000000000000000012 /* Sources */,
+				AA0000000000000000000013 /* Frameworks */,
+				AA0000000000000000000014 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AA0000000000000000000020 /* LibraryCore */,
+			);
+			name = LibraryCore;
+			packageProductDependencies = (
+				AA0000000000000000000022 /* GRDB */,
+			);
+			productName = LibraryCore;
+			productReference = AA0000000000000000000010 /* LibraryCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		2EE1349E3093B89E00195768 /* PlayItRight */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2EE134C33093B89F00195768 /* Build configuration list for PBXNativeTarget "PlayItRight" */;
@@ -96,8 +176,12 @@
 				2EE1349B3093B89E00195768 /* Sources */,
 				2EE1349C3093B89E00195768 /* Frameworks */,
 				2EE1349D3093B89E00195768 /* Resources */,
+				AA000000000000000000001A /* Embed Frameworks */,
 			);
 			buildRules = (
+			);
+			dependencies = (
+				AA000000000000000000001B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				2EE134A13093B89E00195768 /* PlayItRight */,
@@ -119,9 +203,11 @@
 			);
 			dependencies = (
 				2EE134B33093B89F00195768 /* PBXTargetDependency */,
+				AA000000000000000000001E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				2EE134B43093B89F00195768 /* PlayItRightTests */,
+				AA0000000000000000000024 /* PlaybackSpike */,
 			);
 			name = PlayItRightTests;
 			productName = PlayItRightTests;
@@ -170,6 +256,9 @@
 						CreatedOnToolsVersion = 27.1;
 						TestTargetID = 2EE1349E3093B89E00195768;
 					};
+					AA0000000000000000000011 = {
+						CreatedOnToolsVersion = 27.1;
+					};
 				};
 			};
 			buildConfigurationList = 2EE1349A3093B89E00195768 /* Build configuration list for PBXProject "PlayItRight" */;
@@ -181,6 +270,9 @@
 			);
 			mainGroup = 2EE134963093B89E00195768;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AA0000000000000000000021 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2EE134A03093B89E00195768 /* Products */;
 			projectDirPath = "";
@@ -189,6 +281,7 @@
 				2EE1349E3093B89E00195768 /* PlayItRight */,
 				2EE134B03093B89F00195768 /* PlayItRightTests */,
 				2EE134BA3093B89F00195768 /* PlayItRightUITests */,
+				AA0000000000000000000011 /* LibraryCore */,
 			);
 		};
 /* End PBXProject section */
@@ -205,6 +298,11 @@
 			);
 		};
 		2EE134B93093B89F00195768 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		AA0000000000000000000014 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
@@ -227,6 +325,11 @@
 			files = (
 			);
 		};
+		AA0000000000000000000012 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -239,6 +342,16 @@
 			isa = PBXTargetDependency;
 			target = 2EE1349E3093B89E00195768 /* PlayItRight */;
 			targetProxy = 2EE134BC3093B89F00195768 /* PBXContainerItemProxy */;
+		};
+		AA000000000000000000001B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA0000000000000000000011 /* LibraryCore */;
+			targetProxy = AA000000000000000000001C /* PBXContainerItemProxy */;
+		};
+		AA000000000000000000001E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA0000000000000000000011 /* LibraryCore */;
+			targetProxy = AA000000000000000000001F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -302,7 +415,7 @@
 				SDKROOT = appletvos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TVOS_DEPLOYMENT_TARGET = 27.0;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
 			};
 			name = Debug;
 		};
@@ -357,7 +470,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = appletvos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				TVOS_DEPLOYMENT_TARGET = 27.0;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -385,7 +498,7 @@
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Debug;
@@ -413,7 +526,7 @@
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Release;
@@ -425,6 +538,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRightTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -432,10 +550,10 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlayItRight.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PlayItRight";
-				TVOS_DEPLOYMENT_TARGET = 27.0;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
 			};
 			name = Debug;
 		};
@@ -446,6 +564,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRightTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -453,10 +576,10 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlayItRight.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PlayItRight";
-				TVOS_DEPLOYMENT_TARGET = 27.0;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
 			};
 			name = Release;
 		};
@@ -473,7 +596,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_TARGET_NAME = PlayItRight;
 			};
@@ -492,9 +615,67 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_TARGET_NAME = PlayItRight;
+			};
+			name = Release;
+		};
+		AA0000000000000000000016 /* Debug configuration for PBXNativeTarget "LibraryCore" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.LibraryCore;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+			};
+			name = Debug;
+		};
+		AA0000000000000000000017 /* Release configuration for PBXNativeTarget "LibraryCore" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.LibraryCore;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
 			};
 			name = Release;
 		};
@@ -533,7 +714,34 @@
 			);
 			defaultConfigurationName = Release;
 		};
+		AA0000000000000000000015 /* Build configuration list for PBXNativeTarget "LibraryCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000016 /* Debug configuration for PBXNativeTarget "LibraryCore" */,
+				AA0000000000000000000017 /* Release configuration for PBXNativeTarget "LibraryCore" */,
+			);
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AA0000000000000000000021 /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AA0000000000000000000022 /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA0000000000000000000021 /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2EE134973093B89E00195768 /* Project object */;
 	validationLevel = 1;

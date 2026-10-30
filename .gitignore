@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Xcode user-specific data
+xcuserdata/
+*.xcuserstate
+
+# Xcode build products
+DerivedData/
+build/
+*.xcresult
+
+# SQLite database artifacts (regenerated via `make db`); schema.sql stays tracked
+db/**/library.db
+db/**/library.db-shm
+db/**/library.db-wal
+db/**/backups/
+db/**/artwork/
