@@ -1,3 +1,5 @@
+// xcode: set sdk=tvOS
+
 import Foundation
 
 /// Type-safe representation and parsing of entity references in the database.
