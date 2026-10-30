@@ -1,79 +1,147 @@
-.PHONY: all build build-release test db reset-db clean clean-db clean-all-dbs env-info help
+# PlayItRight build, test, and database helpers.
+.DEFAULT_GOAL := all
 
-# Active Environment (dev, test, prod). Default is dev.
+# Active environment (dev, test, prod). Default is dev.
 ENV ?= dev
+VALID_ENVS := dev test prod
 
-# Load environment variable files if they exist (highest precedence to lowest)
+# Load environment variable files if they exist (highest precedence to lowest).
 -include config/environments/$(ENV).env
 -include .env.$(ENV)
 -include .env
 
-# Export loaded variables to child processes
+# Export the active environment to child processes.
 export PLAYITRIGHT_ENV ?= $(ENV)
 
-# Resolved database paths per environment
-DB_DIR ?= db/$(ENV)
-DB_FILE ?= $(if $(PLAYITRIGHT_DB_PATH),$(if $(filter :memory:,$(PLAYITRIGHT_DB_PATH)),$(DB_DIR)/library.db,$(PLAYITRIGHT_DB_PATH)),$(DB_DIR)/library.db)
+# Resolved database location for the active environment.
+# An in-memory database (e.g. ENV=test) has no file to create or clean.
+IS_IN_MEMORY := $(if $(filter :memory:,$(PLAYITRIGHT_DB_PATH)),1,)
+DB_FILE ?= $(if $(IS_IN_MEMORY),,$(if $(PLAYITRIGHT_DB_PATH),$(PLAYITRIGHT_DB_PATH),db/$(ENV)/library.db))
+DB_DIR ?= $(if $(DB_FILE),$(dir $(DB_FILE)),db/$(ENV))
 SCHEMA_FILE ?= db/schema.sql
 
-# Toolchain flags for Swift Testing on macOS CommandLineTools
-CLT_FRAMEWORKS ?= /Library/Developer/CommandLineTools/Library/Developer/Frameworks
-CLT_USRLIB ?= /Library/Developer/CommandLineTools/Library/Developer/usr/lib
-SWIFT_TEST_FLAGS ?= -Xswiftc -F$(CLT_FRAMEWORKS) -Xlinker -rpath -Xlinker $(CLT_FRAMEWORKS) -Xlinker -rpath -Xlinker $(CLT_USRLIB)
+# Prefer a full Xcode toolchain when available.
+XCODE_DEVELOPER_DIR ?= $(shell if [ -d /Applications/Xcode.app/Contents/Developer ]; then echo /Applications/Xcode.app/Contents/Developer; else xcode-select -p; fi)
+XCODEBUILD ?= DEVELOPER_DIR="$(XCODE_DEVELOPER_DIR)" xcodebuild
+XCODE_PROJECT ?= PlayItRight.xcodeproj
+XCODE_SCHEME ?= PlayItRight
+XCODE_TEST_DESTINATION ?= platform=tvOS Simulator,name=Apple TV 4K (3rd generation)
 
-# Default target: build the Swift package and create the database for the current environment
+.PHONY: all build build-release test xcode-build xcode-test test-suite xcode-clean \
+	db reset-db clean-db clean-all-dbs clean distclean env-info check-env help
+
+## all: Build the tvOS app and initialize the database for the active environment
 all: build db
 
-## build: Build the Swift package in debug mode
-build:
-	@echo "==> Building Swift package (debug) [ENV=$(ENV)]..."
-	swift build
+## build: Build the tvOS app in debug mode
+build: xcode-build
 
-## build-release: Build the Swift package in release mode
+## build-release: Build the tvOS app in release mode
 build-release:
-	@echo "==> Building Swift package (release) [ENV=$(ENV)]..."
-	swift build -c release
+	@echo "==> Building $(XCODE_SCHEME) for tvOS (Release)..."
+	$(XCODEBUILD) -project $(XCODE_PROJECT) -scheme $(XCODE_SCHEME) \
+		-destination 'generic/platform=tvOS' -configuration Release \
+		build CODE_SIGNING_ALLOWED=NO
 
-## test: Run automated tests in testing environment
-test:
-	@echo "==> Running test suite [ENV=test]..."
-	PLAYITRIGHT_ENV=test swift test $(SWIFT_TEST_FLAGS)
+## test: Run the app, core, and UI tests on the tvOS simulator
+test: xcode-test
+
+## xcode-build: Build the tvOS app and LibraryCore framework with Xcode
+xcode-build:
+	@echo "==> Building $(XCODE_SCHEME) for tvOS..."
+	$(XCODEBUILD) -project $(XCODE_PROJECT) -scheme $(XCODE_SCHEME) \
+		-destination 'generic/platform=tvOS' -configuration Debug \
+		build CODE_SIGNING_ALLOWED=NO
+
+## xcode-test: Run the app, core, and UI tests on the tvOS simulator
+xcode-test:
+	@echo "==> Testing $(XCODE_SCHEME) on tvOS..."
+	$(XCODEBUILD) test -project $(XCODE_PROJECT) -scheme $(XCODE_SCHEME) \
+		-destination '$(XCODE_TEST_DESTINATION)' -configuration Debug \
+		CODE_SIGNING_ALLOWED=NO
+
+## test-suite: Run one test suite, e.g. make test-suite SUITE=MediaDatabaseReaderTests
+test-suite:
+	@test -n "$(SUITE)" || { echo "error: set SUITE=<TestSuiteName>" >&2; exit 1; }
+	@echo "==> Testing $(XCODE_SCHEME) [SUITE=$(SUITE)]..."
+	$(XCODEBUILD) test -project $(XCODE_PROJECT) -scheme $(XCODE_SCHEME) \
+		-destination '$(XCODE_TEST_DESTINATION)' -configuration Debug \
+		-only-testing:PlayItRightTests/$(SUITE) \
+		CODE_SIGNING_ALLOWED=NO
+
+## xcode-clean: Remove Xcode build artifacts for the app scheme
+xcode-clean:
+	@echo "==> Cleaning $(XCODE_SCHEME) Xcode build artifacts..."
+	$(XCODEBUILD) clean -project $(XCODE_PROJECT) -scheme $(XCODE_SCHEME) \
+		-destination 'generic/platform=tvOS' -configuration Debug
 
 ## db: Initialize the database for the active environment (ENV=dev|test|prod)
-db: $(DB_FILE)
+ifeq ($(IS_IN_MEMORY),1)
+db: check-env
+	@echo "==> ENV=$(ENV) uses an in-memory database; nothing to create."
+else
+db: check-env $(DB_FILE)
+endif
 
+ifneq ($(DB_FILE),)
 $(DB_FILE): $(SCHEMA_FILE)
-	@echo "==> Creating database directory for '$(ENV)' at '$$(dirname $(DB_FILE))'..."
-	@mkdir -p $$(dirname $(DB_FILE))
+	@command -v sqlite3 >/dev/null 2>&1 || { \
+		echo "error: sqlite3 is required but was not found in PATH" >&2; exit 1; \
+	}
+	@echo "==> Creating database directory at '$(DB_DIR)'..."
+	@mkdir -p "$(DB_DIR)"
 	@echo "==> Initializing SQLite database at '$(DB_FILE)' using '$(SCHEMA_FILE)'..."
-	@sqlite3 $(DB_FILE) < $(SCHEMA_FILE)
+	@sqlite3 "$(DB_FILE)" < "$(SCHEMA_FILE)" > /dev/null
 	@echo "==> Database successfully created for '$(ENV)' at '$(DB_FILE)'."
+endif
 
 ## reset-db: Recreate a fresh database for the active environment (ENV=dev|test|prod)
-reset-db: clean-db db
+reset-db: check-env
+	@$(MAKE) --no-print-directory clean-db ENV=$(ENV)
+	@$(MAKE) --no-print-directory db ENV=$(ENV)
 
-## clean-db: Remove database for the active environment (ENV=dev|test|prod)
-clean-db:
+## clean-db: Remove the database for the active environment (ENV=dev|test|prod)
+clean-db: check-env
+ifeq ($(IS_IN_MEMORY),1)
+	@echo "==> ENV=$(ENV) uses an in-memory database; nothing to clean."
+else
 	@echo "==> Cleaning database for '$(ENV)' at '$(DB_FILE)'..."
-	@rm -f $(DB_FILE) $(DB_FILE)-wal $(DB_FILE)-shm
+	@rm -f "$(DB_FILE)" "$(DB_FILE)-wal" "$(DB_FILE)-shm"
+endif
 
-## clean-all-dbs: Remove all databases in db/ across all environments
+## clean-all-dbs: Remove generated database files from db/ (keeps db/schema.sql)
 clean-all-dbs:
-	@echo "==> Removing all databases in db/..."
-	@rm -rf db/
+	@echo "==> Removing generated databases in db/..."
+	@rm -f db/*/library.db db/*/library.db-wal db/*/library.db-shm
 
-## clean: Clean build artifacts and all databases
-clean: clean-all-dbs
-	@echo "==> Cleaning Swift build artifacts..."
-	swift package clean
+## clean: Remove Xcode build artifacts (leaves databases untouched)
+clean: xcode-clean
+	@echo "==> Removing legacy build caches..."
+	@rm -rf .build
 
-## env-info: Display current active environment and configuration
-env-info:
-	@echo "Active Environment: $(ENV)"
-	@echo "Database File:      $(DB_FILE)"
-	@echo "Schema File:        $(SCHEMA_FILE)"
-	@echo "Backup Dir:         $(PLAYITRIGHT_BACKUP_DIR)"
-	@echo "Artwork Dir:        $(PLAYITRIGHT_ARTWORK_DIR)"
+## distclean: Remove build artifacts and all generated databases
+distclean: clean clean-all-dbs
+
+## env-info: Display the resolved environment, project, and toolchain configuration
+env-info: check-env
+	@echo "Active Environment:  $(ENV)"
+	@echo "Xcode Project:       $(XCODE_PROJECT)"
+	@echo "Xcode Scheme:        $(XCODE_SCHEME)"
+	@echo "Database File:       $(if $(IS_IN_MEMORY),:memory: (in-memory),$(DB_FILE))"
+	@echo "Schema File:         $(SCHEMA_FILE)"
+	@echo "Backup Directory:    $(if $(PLAYITRIGHT_BACKUP_DIR),$(PLAYITRIGHT_BACKUP_DIR),<default for $(ENV)>)"
+	@echo "Artwork Directory:   $(if $(PLAYITRIGHT_ARTWORK_DIR),$(PLAYITRIGHT_ARTWORK_DIR),<default for $(ENV)>)"
+	@echo "Busy Timeout:        $(if $(PLAYITRIGHT_BUSY_TIMEOUT),$(PLAYITRIGHT_BUSY_TIMEOUT),5.0)"
+	@echo "Cache Size (KiB):    $(if $(PLAYITRIGHT_CACHE_SIZE_KB),$(PLAYITRIGHT_CACHE_SIZE_KB),8192)"
+	@echo "Max Backup Gens:     $(if $(PLAYITRIGHT_MAX_BACKUP_GENS),$(PLAYITRIGHT_MAX_BACKUP_GENS),2)"
+	@echo "Xcode Developer Dir: $(XCODE_DEVELOPER_DIR)"
+
+# check-env: Validate the active ENV value
+check-env:
+	@case " $(VALID_ENVS) " in \
+		*" $(ENV) "*) ;; \
+		*) echo "error: ENV must be one of: $(VALID_ENVS) (got '$(ENV)')" >&2; exit 1 ;; \
+	esac
 
 ## help: Display this help message
 help:
@@ -81,12 +149,16 @@ help:
 	@echo "Usage: make [target] [ENV=dev|test|prod]"
 	@echo ""
 	@echo "Targets:"
-	@grep -E '^## ' $(MAKEFILE_LIST) | sed -e 's/## //g' | awk 'BEGIN {FS = ":"}; {printf "  %-16s %s\n", $$1, $$2}'
+	@grep -hE '^## ' $(firstword $(MAKEFILE_LIST)) | sed -e 's/^## //' | awk -F': ' '{printf "  %-18s %s\n", $$1, $$2}'
 	@echo ""
 	@echo "Examples:"
+	@echo "  make                     # Build app + create dev database"
 	@echo "  make db                  # Create dev database (db/dev/library.db)"
-	@echo "  make db ENV=test         # Create test database (db/test/library.db)"
 	@echo "  make db ENV=prod         # Create prod database (db/prod/library.db)"
 	@echo "  make reset-db ENV=dev    # Reset dev database"
-	@echo "  make test                # Run test suite in test environment"
-	@echo "  make env-info ENV=dev    # Show resolved dev environment parameters"
+	@echo "  make test                # Run app, core, and UI tests"
+	@echo "  make test-suite SUITE=X  # Run one test suite"
+	@echo "  make xcode-build         # Build the tvOS app in Xcode"
+	@echo "  make xcode-test          # Test the tvOS app in the simulator"
+	@echo "  make env-info ENV=dev    # Show resolved configuration"
+	@echo "  make distclean           # Remove build artifacts and generated databases"

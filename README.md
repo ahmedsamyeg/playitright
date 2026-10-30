@@ -18,6 +18,39 @@ PlayItRight plays anything you own or stream:
 - **Synced** — libraries, watch state, and in-progress resume across your
   devices, plus AirPlay and Google Cast.
 
+## Repository layout
+
+```
+PlayItRight.xcodeproj/          tvOS app project + shared scheme
+PlayItRight/
+  App/                          App entry point and shell
+  Features/
+    Library/                    Library screen and its view model
+  Resources/                    Asset catalogs and other resources
+PlayItRightTests/
+  LibraryCoreTests/             LibraryCore framework tests
+  PlaybackSpikeTests/           Playback spike tests (test target only)
+PlayItRightUITests/             App UI tests
+Libraries/
+  LibraryCore/                  Media database, models, reader/writer framework
+  PlaybackSpike/                Phase 0 playback/protocol/sync harnesses
+```
+
+`LibraryCore` is a native framework target inside `PlayItRight.xcodeproj`.
+The app target links and embeds it; GRDB is a remote Swift package dependency
+of the framework. `PlaybackSpike` is test-only support code compiled into
+`PlayItRightTests`. There is no local Swift package.
+
+Open `PlayItRight.xcodeproj`, select the `PlayItRight` scheme, and run on an
+Apple TV 4K simulator or device. The command-line equivalents are:
+
+```sh
+make build          # build the tvOS app + LibraryCore framework
+make test           # app, core, and UI tests on the tvOS simulator
+make xcode-build    # alias for make build
+make xcode-test     # alias for make test
+```
+
 ## Documentation
 
 | Document | Contents |
