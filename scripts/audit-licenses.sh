@@ -20,14 +20,30 @@ for lic in "${PROHIBITED_LICENSES[@]}"; do
     fi
 done
 
-# 2. Check Package.swift dependencies
-echo "Checking Package.swift dependencies..."
-# Package.swift must only contain approved permissive packages (GRDB: MIT)
-if grep -i "gpl" Package.swift; then
-    echo "❌ ERROR: GPL package reference detected in Package.swift"
+# 2. Check resolved Swift package dependencies
+PACKAGE_RESOLVED="PlayItRight.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
+echo "Checking resolved Swift package dependencies..."
+if [ ! -f "${PACKAGE_RESOLVED}" ]; then
+    echo "❌ ERROR: ${PACKAGE_RESOLVED} not found"
     VIOLATIONS=$((VIOLATIONS + 1))
 else
-    echo "✅ Package.swift contains only verified permissive dependencies."
+    UNAPPROVED=0
+    while IFS= read -r identity; do
+        case "${identity}" in
+            grdb.swift)
+                ;;
+            *)
+                echo "❌ ERROR: Unapproved Swift package dependency: ${identity}"
+                UNAPPROVED=1
+                ;;
+        esac
+    done < <(sed -n 's/.*"identity" : "\([^"]*\)".*/\1/p' "${PACKAGE_RESOLVED}")
+
+    if [ ${UNAPPROVED} -eq 0 ]; then
+        echo "✅ Resolved Swift packages contain only verified permissive dependencies."
+    else
+        VIOLATIONS=$((VIOLATIONS + 1))
+    fi
 fi
 
 # 3. Check build scripts for forbidden flags (--enable-gpl, --enable-nonfree, libx264, libx265)

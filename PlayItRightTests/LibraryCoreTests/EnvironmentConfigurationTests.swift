@@ -111,7 +111,7 @@ struct EnvironmentConfigurationTests {
     }
 
     /// Finds the repository root (the directory containing `config/environments`)
-    /// regardless of the directory `swift test` was invoked from.
+    /// regardless of the directory the test runner was invoked from.
     private static func repositoryRoot() -> URL {
         let candidates = [
             URL(fileURLWithPath: FileManager.default.currentDirectoryPath),

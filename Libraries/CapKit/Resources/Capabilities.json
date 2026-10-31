@@ -1,0 +1,347 @@
+{
+  "schemaVersion": 1,
+  "profiles": [
+    {
+      "id": "apple-tv-4k-gen2",
+      "displayName": "Apple TV 4K (2nd generation)",
+      "generation": 2,
+      "chip": "A12Z",
+      "tvOSMinimum": "18.0",
+      "maxVideoOutput": "2160p60",
+      "maxHDRVideoOutput": "2160p60",
+      "videoCodecs": [
+        {
+          "codec": "h264",
+          "decode": "hw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": true
+        },
+        {
+          "codec": "hevc",
+          "decode": "hw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 10,
+          "hdrFormats": ["hdr10", "hlg"],
+          "dolbyVisionProfiles": [5, 8],
+          "hardwareEncode": true
+        },
+        {
+          "codec": "av1",
+          "decode": "sw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 10,
+          "hdrFormats": ["hdr10", "hlg"],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "vp9",
+          "decode": "sw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 10,
+          "hdrFormats": ["hdr10", "hlg"],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "vvc",
+          "decode": "sw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 10,
+          "hdrFormats": ["hdr10", "hlg"],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "mpeg2",
+          "decode": "sw",
+          "maxWidth": 1920,
+          "maxHeight": 1080,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "vc1",
+          "decode": "sw",
+          "maxWidth": 1920,
+          "maxHeight": 1080,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "wmv",
+          "decode": "sw",
+          "maxWidth": 1920,
+          "maxHeight": 1080,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "divx",
+          "decode": "sw",
+          "maxWidth": 1920,
+          "maxHeight": 1080,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        }
+      ],
+      "audioCodecs": [
+        { "codec": "ac3", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "eac3", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "aac", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "alac", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "flac", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "pcm", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "mp3", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "dts", "hardwareDecode": false, "softwareDecode": true, "passthrough": true },
+        { "codec": "truehd", "hardwareDecode": false, "softwareDecode": true, "passthrough": true },
+        { "codec": "opus", "hardwareDecode": false, "softwareDecode": true, "passthrough": false },
+        { "codec": "vorbis", "hardwareDecode": false, "softwareDecode": true, "passthrough": false }
+      ]
+    },
+    {
+      "id": "apple-tv-4k-gen3",
+      "displayName": "Apple TV 4K (3rd generation)",
+      "generation": 3,
+      "chip": "A15",
+      "tvOSMinimum": "18.0",
+      "maxVideoOutput": "2160p60",
+      "maxHDRVideoOutput": "2160p60",
+      "videoCodecs": [
+        {
+          "codec": "h264",
+          "decode": "hw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": true
+        },
+        {
+          "codec": "hevc",
+          "decode": "hw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 10,
+          "hdrFormats": ["hdr10", "hdr10_plus", "hlg"],
+          "dolbyVisionProfiles": [5],
+          "hardwareEncode": true
+        },
+        {
+          "codec": "av1",
+          "decode": "sw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 10,
+          "hdrFormats": ["hdr10", "hdr10_plus", "hlg"],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "vp9",
+          "decode": "sw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 10,
+          "hdrFormats": ["hdr10", "hdr10_plus", "hlg"],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "vvc",
+          "decode": "sw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 10,
+          "hdrFormats": ["hdr10", "hdr10_plus", "hlg"],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "mpeg2",
+          "decode": "sw",
+          "maxWidth": 1920,
+          "maxHeight": 1080,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "vc1",
+          "decode": "sw",
+          "maxWidth": 1920,
+          "maxHeight": 1080,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "wmv",
+          "decode": "sw",
+          "maxWidth": 1920,
+          "maxHeight": 1080,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "divx",
+          "decode": "sw",
+          "maxWidth": 1920,
+          "maxHeight": 1080,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        }
+      ],
+      "audioCodecs": [
+        { "codec": "ac3", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "eac3", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "aac", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "alac", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "flac", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "pcm", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "mp3", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "dts", "hardwareDecode": false, "softwareDecode": true, "passthrough": true },
+        { "codec": "truehd", "hardwareDecode": false, "softwareDecode": true, "passthrough": true },
+        { "codec": "opus", "hardwareDecode": false, "softwareDecode": true, "passthrough": false },
+        { "codec": "vorbis", "hardwareDecode": false, "softwareDecode": true, "passthrough": false }
+      ]
+    },
+    {
+      "id": "apple-tv-4k-gen4",
+      "displayName": "Apple TV 4K (4th generation)",
+      "generation": 4,
+      "chip": "A19",
+      "tvOSMinimum": "18.0",
+      "maxVideoOutput": "2160p60",
+      "maxHDRVideoOutput": "2160p60",
+      "videoCodecs": [
+        {
+          "codec": "h264",
+          "decode": "hw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": true
+        },
+        {
+          "codec": "hevc",
+          "decode": "hw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 10,
+          "hdrFormats": ["hdr10", "hdr10_plus", "hlg"],
+          "dolbyVisionProfiles": [5, 8.1],
+          "hardwareEncode": true
+        },
+        {
+          "codec": "av1",
+          "decode": "hw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 10,
+          "hdrFormats": ["hdr10", "hdr10_plus", "hlg"],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "vp9",
+          "decode": "hw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 10,
+          "hdrFormats": ["hdr10", "hdr10_plus", "hlg"],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "vvc",
+          "decode": "sw",
+          "maxWidth": 3840,
+          "maxHeight": 2160,
+          "maxBitDepth": 10,
+          "hdrFormats": ["hdr10", "hdr10_plus", "hlg"],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "mpeg2",
+          "decode": "sw",
+          "maxWidth": 1920,
+          "maxHeight": 1080,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "vc1",
+          "decode": "sw",
+          "maxWidth": 1920,
+          "maxHeight": 1080,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "wmv",
+          "decode": "sw",
+          "maxWidth": 1920,
+          "maxHeight": 1080,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        },
+        {
+          "codec": "divx",
+          "decode": "sw",
+          "maxWidth": 1920,
+          "maxHeight": 1080,
+          "maxBitDepth": 8,
+          "hdrFormats": [],
+          "dolbyVisionProfiles": [],
+          "hardwareEncode": false
+        }
+      ],
+      "audioCodecs": [
+        { "codec": "ac3", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "eac3", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "aac", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "alac", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "flac", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "pcm", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "mp3", "hardwareDecode": true, "softwareDecode": true, "passthrough": true },
+        { "codec": "dts", "hardwareDecode": false, "softwareDecode": true, "passthrough": true },
+        { "codec": "truehd", "hardwareDecode": false, "softwareDecode": true, "passthrough": true },
+        { "codec": "opus", "hardwareDecode": false, "softwareDecode": true, "passthrough": false },
+        { "codec": "vorbis", "hardwareDecode": false, "softwareDecode": true, "passthrough": false }
+      ]
+    }
+  ]
+}

@@ -16,4 +16,4 @@ must trace back to those IDs.
   the spec wins and the spec gets a revision with the decision recorded (doc 01
   style).
 - Design documents are written before their code: the Phase 1 modules land in
-  SPM packages whose public API matches what these documents describe.
+  framework targets whose public API matches what these documents describe.

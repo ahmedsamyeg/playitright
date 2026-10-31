@@ -1,7 +1,7 @@
 # PlayItRight — Master Implementation Plan & Agent Tracking System
 
 **Target Platform:** Apple TV 4K (gen 2, 3, 4; tvOS 18.0+)  
-**Architecture:** Platform-neutral Swift Package Manager (SPM) core modules + tvOS SwiftUI App Shell  
+**Architecture:** Platform-neutral framework modules + tvOS SwiftUI App Shell
 **Licensing Constraints:** LGPL 2.1+ for FFmpeg (dynamic `.dylib` only; no static GPL linkage; pure-Swift/permissive for protocol clients)  
 **Document Status:** ACTIVE · Last Updated: 2026-10-29  
 
@@ -41,19 +41,19 @@ This document is the single source of truth for the implementation of PlayItRigh
 | Phase | Description | Total Tasks | Completed | In Progress | Remaining | % Complete |
 |---|---|---|---|---|---|---|
 | **Phase 0** | De-risking Spikes (Real Hardware & Labs) | 5 | 5 | 0 | 0 | 100.0% |
-| **Phase 1** | MVP Alpha (Core Foundation to First 4K Play) | 36 | 7 | 0 | 29 | 19.4% |
+| **Phase 1** | MVP Alpha (Core Foundation to First 4K Play) | 36 | 16 | 0 | 20 | 44.4% |
 | **Phase 2** | Public Beta (Pro Formats, Cloud, Sync, StoreKit) | 16 | 0 | 0 | 16 | 0% |
 | **Phase 3** | v1.0 Launch & Accessibility / Localization | 6 | 0 | 0 | 6 | 0% |
 | **Phase 4** | v1.x Continuous Roadmap | 5 | 0 | 0 | 5 | 0% |
-| **TOTAL** | **Full Project Lifecycle** | **68** | **12** | **0** | **56** | **17.6%** |
+| **TOTAL** | **Full Project Lifecycle** | **68** | **21** | **0** | **47** | **30.9%** |
 
 ### 2.2 Subsystem Progress
 
 | Subsystem / Target | Responsible Domain | Total Tasks | Completed | Remaining | Status |
 |---|---|---|---|---|---|
-| `CoreKit` | DI, Keychain, Ring Buffer Diagnostics, Entitlements | 4 | 0 | 4 | Not Started |
-| `CapKit` | CapabilityRegistry, Capabilities.json, Hardware Probes | 3 | 0 | 3 | Not Started |
-| `LibraryCore` | SQLite Database, GRDB, FTS5, Reader, Writer, GC | 9 | 7 | 2 | **Active (78%)** |
+| `CoreKit` | DI, Keychain, Ring Buffer Diagnostics, Entitlements | 4 | 4 | 0 | **Complete (100%)** |
+| `CapKit` | CapabilityRegistry, Capabilities.json, Hardware Probes | 3 | 3 | 0 | **Complete (100%)** |
+| `LibraryCore` | SQLite Database, GRDB, FTS5, Reader, Writer, GC | 9 | 9 | 0 | **Complete (100%)** |
 | `MetadataKit` | Matcher Ladder, NFO Parser, TMDB/OMDB, Artwork LRU | 5 | 0 | 5 | Not Started |
 | `SourceAdapters` | SourceAdapter Protocol, Plex, Jellyfin, Emby, SMB, NFS, WebDAV, HTTP | 8 | 0 | 8 | Not Started |
 | `PlaybackKit` | MediaGraph, PipelinePlanner, R1–R5, Color, Audio, Subtitles | 11 | 0 | 11 | Not Started |
@@ -144,9 +144,9 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 
 ### Workstream 1.1: CoreKit Foundation
 
-#### [ ] TASK-1.1.1: CoreKit Module Setup & Dependency Injection
+#### [x] TASK-1.1.1: CoreKit Module Setup & Dependency Injection
 - **Requirements Ref:** `ARCH-P2`, `ARCH-P8`, `doc 02 §2`
-- **Objective:** Initialize `CoreKit` SPM target with lightweight, type-safe dependency injection container and service registry.
+- **Objective:** Initialize `CoreKit` framework target with lightweight, type-safe dependency injection container and service registry.
 - **Target Files:**
   - `Libraries/CoreKit/DI/ServiceContainer.swift`
   - `Libraries/CoreKit/DI/Inject.swift`
@@ -161,7 +161,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=ServiceContainerTests`
 - **Dependencies:** None.
 
-#### [ ] TASK-1.1.2: Keychain Storage Abstraction
+#### [x] TASK-1.1.2: Keychain Storage Abstraction
 - **Requirements Ref:** `ARCH-8`, `NFR-7`, `doc 09 §3`
 - **Objective:** Implement secure Keychain wrapper for credential storage with `kSecAttrAccessibleAfterFirstUnlock`. Secrets must never touch disk, logs, or sync payloads.
 - **Target Files:**
@@ -178,7 +178,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=KeychainStoreTests`
 - **Dependencies:** `TASK-1.1.1`
 
-#### [ ] TASK-1.1.3: Structured Logging & Ring Buffer Diagnostics
+#### [x] TASK-1.1.3: Structured Logging & Ring Buffer Diagnostics
 - **Requirements Ref:** `ARCH-9`, `NFR-11`, `NFR-12`, `doc 09 §4`
 - **Objective:** Implement structured in-memory ring-buffer logger (5,000 entries max) with log levels, automatic redaction of URLs, tokens, and file paths, and export capability.
 - **Target Files:**
@@ -196,7 +196,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=RingBufferLoggerTests`
 - **Dependencies:** `TASK-1.1.1`
 
-#### [ ] TASK-1.1.4: Thermal State & System Resource Monitor
+#### [x] TASK-1.1.4: Thermal State & System Resource Monitor
 - **Requirements Ref:** `ARCH-6`, `NFR-2`, `PB-24`, `doc 09 §1`
 - **Objective:** Implement `ThermalMonitor` observing `ProcessInfo.thermalStateDidChangeNotification` and exposing an `AsyncStream<ThermalState>` for reactive pipeline downgrades.
 - **Target Files:**
@@ -215,7 +215,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 
 ### Workstream 1.2: CapKit (Hardware Capabilities & Probes)
 
-#### [ ] TASK-1.2.1: Capability Data Model & Bundled Capabilities.json
+#### [x] TASK-1.2.1: Capability Data Model & Bundled Capabilities.json
 - **Requirements Ref:** `ARCH-1`, `PB-8`, `PB-9`, `doc 04 §5`
 - **Objective:** Create the static hardware capability matrix model and `Capabilities.json` covering Apple TV 4K gen 2 (A12Z), gen 3 (A15), and gen 4 (A19).
 - **Target Files:**
@@ -233,7 +233,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=CapabilityProfileTests`
 - **Dependencies:** `TASK-1.1.1`
 
-#### [ ] TASK-1.2.2: Runtime VideoToolbox Probes
+#### [x] TASK-1.2.2: Runtime VideoToolbox Probes
 - **Requirements Ref:** `ARCH-1`, `PB-8`, `PB-10`, `doc 04 §5.1`
 - **Objective:** Implement hardware probe runner that attempts to create `VTDecompressionSession` and `VTCompressionSession` instances with minimal format descriptions to verify actual silicon capabilities.
 - **Target Files:**
@@ -249,7 +249,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=VideoToolboxProbeTests`
 - **Dependencies:** `TASK-1.2.1`
 
-#### [ ] TASK-1.2.3: CapabilityRegistry Engine
+#### [x] TASK-1.2.3: CapabilityRegistry Engine
 - **Requirements Ref:** `ARCH-1`, `PB-8`, `PB-9`, `PB-10`, `NFR-19`
 - **Objective:** Implement `CapabilityRegistry` as the single authoritative service answering queries like `canHardwareDecode(codec, profile, bitDepth, resolution)` and rejecting unsupported devices (1080p Apple TV HD, 2017 gen 1).
 - **Target Files:**
@@ -313,7 +313,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Files:** `Libraries/LibraryCore/Database/MediaDatabase.swift`, `Libraries/LibraryCore/Writer/MediaDatabaseWriter.swift`
 - **Tests:** `PlayItRightTests/LibraryCoreTests/MediaDatabaseTests.swift`, `PlayItRightTests/LibraryCoreTests/MediaDatabaseWriterTests.swift`
 
-#### [ ] TASK-1.3.8: Similar Titles Table & "More Like This" Queries (DB-11)
+#### [x] TASK-1.3.8: Similar Titles Table & "More Like This" Queries (DB-11)
 - **Requirements Ref:** `DB-11`, `MD-2`, `doc 11 §2.11`, `doc 05 §2`
 - **Objective:** Add schema support and reader/writer queries for `similar` titles table storing entity ref pairs to power "More Like This" recommendations.
 - **Target Files:**
@@ -330,7 +330,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test`
 - **Dependencies:** `TASK-1.3.1`
 
-#### [ ] TASK-1.3.9: Free-Tier User State Local Export/Import (SYNC-1)
+#### [x] TASK-1.3.9: Free-Tier User State Local Export/Import (SYNC-1)
 - **Requirements Ref:** `SYNC-1`, `doc 07 §1.1`, `design 01 §1`
 - **Objective:** Implement export of the user-state layer only (`watch_state`, `user_rating`, collections, playlists, pins, prefs) into a standalone JSON file for manual device migration.
 - **Target Files:**
@@ -1328,7 +1328,7 @@ make test-suite SUITE=<SuiteOrTestName>
 ```
 
 ### 8.2 Adding a New Module
-When adding a new framework target (e.g. `CoreKit`, `PlaybackKit`):
+When adding a new framework target (e.g. `CapKit`, `PlaybackKit`):
 1. Add a Framework target to `PlayItRight.xcodeproj` (tvOS, Swift 6).
 2. Put sources under `Libraries/<ModuleName>/` and attach that folder as a
    file-system synchronized group for the target.

@@ -28,18 +28,22 @@ PlayItRight/
     Library/                    Library screen and its view model
   Resources/                    Asset catalogs and other resources
 PlayItRightTests/
+  CapKitTests/                  Capability matrix and probe tests
+  CoreKitTests/                 Dependency injection and infrastructure tests
   LibraryCoreTests/             LibraryCore framework tests
   PlaybackSpikeTests/           Playback spike tests (test target only)
 PlayItRightUITests/             App UI tests
 Libraries/
+  CapKit/                       Capability matrix, runtime probes, registry
+  CoreKit/                      DI, security, diagnostics, and system services
   LibraryCore/                  Media database, models, reader/writer framework
   PlaybackSpike/                Phase 0 playback/protocol/sync harnesses
 ```
 
-`LibraryCore` is a native framework target inside `PlayItRight.xcodeproj`.
-The app target links and embeds it; GRDB is a remote Swift package dependency
-of the framework. `PlaybackSpike` is test-only support code compiled into
-`PlayItRightTests`. There is no local Swift package.
+`LibraryCore`, `CoreKit`, and `CapKit` are native framework targets inside
+`PlayItRight.xcodeproj`. The app target links and embeds them; GRDB is a remote
+Swift package dependency of `LibraryCore`. `PlaybackSpike` is test-only support
+code compiled into `PlayItRightTests`. There is no local Swift package.
 
 Open `PlayItRight.xcodeproj`, select the `PlayItRight` scheme, and run on an
 Apple TV 4K simulator or device. The command-line equivalents are:

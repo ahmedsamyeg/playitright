@@ -304,6 +304,50 @@ public final class MediaDatabaseWriter: Sendable {
         database.emitChange(IndexChangeEvent(tables: ["people", "credits", "search_index"], updated: 1))
     }
 
+    // MARK: - Similar Titles / "More Like This" (DB-11)
+
+    /// Atomically replaces the "more like this" relations for an entity.
+    ///
+    /// Rankings are normalized to their array order so callers can pass a
+    /// freshly ranked list without managing rank integers.
+    public func replaceSimilar(for entity: EntityRef, with relations: [SimilarRecord]) throws {
+        try database.write { db in
+            try SimilarRecord
+                .filter(
+                    SimilarRecord.Columns.entityKind == entity.entityKind.rawValue &&
+                    SimilarRecord.Columns.entityRef == entity.rawValue
+                )
+                .deleteAll(db)
+
+            for (index, relation) in relations.enumerated() {
+                let record = SimilarRecord(
+                    entityKind: entity.entityKind,
+                    entityRef: entity.rawValue,
+                    simKind: relation.simKind,
+                    simRef: relation.simRef,
+                    rank: index
+                )
+                try record.insert(db)
+            }
+        }
+        database.emitChange(IndexChangeEvent(tables: ["similar"], updated: relations.count))
+    }
+
+    /// Removes all "more like this" relations originating from an entity.
+    public func deleteSimilar(for entity: EntityRef) throws {
+        let deleted = try database.write { db in
+            try SimilarRecord
+                .filter(
+                    SimilarRecord.Columns.entityKind == entity.entityKind.rawValue &&
+                    SimilarRecord.Columns.entityRef == entity.rawValue
+                )
+                .deleteAll(db)
+        }
+        if deleted > 0 {
+            database.emitChange(IndexChangeEvent(tables: ["similar"], removed: deleted))
+        }
+    }
+
     /// Saves artwork metadata rows.
     public func saveArtwork(_ artwork: [ArtworkRecord]) throws {
         try database.write { db in
@@ -638,6 +682,23 @@ public final class MediaDatabaseWriter: Sendable {
                 """, arguments: [thresholdEpochMs])
             watchStateDeleted = db.changesCount
 
+            // 4. Delete "more like this" rows whose source or target entity no longer exists
+            try db.execute(sql: """
+                DELETE FROM similar
+                WHERE (entity_kind = 'movie'
+                        AND CAST(entity_ref AS INTEGER) NOT IN (SELECT tmdb_id FROM movies))
+                   OR (entity_kind = 'show'
+                        AND entity_ref NOT IN (SELECT show_id FROM tv_shows))
+                   OR (entity_kind = 'person'
+                        AND entity_ref NOT IN (SELECT person_id FROM people))
+                   OR (sim_kind = 'movie'
+                        AND CAST(sim_ref AS INTEGER) NOT IN (SELECT tmdb_id FROM movies))
+                   OR (sim_kind = 'show'
+                        AND sim_ref NOT IN (SELECT show_id FROM tv_shows))
+                   OR (sim_kind = 'person'
+                        AND sim_ref NOT IN (SELECT person_id FROM people));
+                """)
+
             // Update meta last_gc_at
             let nowMs = String(Int64(Date().timeIntervalSince1970 * 1000))
             try db.execute(
@@ -647,7 +708,7 @@ public final class MediaDatabaseWriter: Sendable {
         }
 
         database.emitChange(IndexChangeEvent(
-            tables: ["movies", "tv_shows", "watch_state", "search_index"],
+            tables: ["movies", "tv_shows", "watch_state", "similar", "search_index"],
             removed: moviesDeleted + showsDeleted + watchStateDeleted
         ))
 

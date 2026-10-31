@@ -160,6 +160,53 @@ public final class MediaDatabaseReader: Sendable {
         }
     }
 
+    // MARK: - Similar Titles / "More Like This" (Design 01 §5.7, DB-11)
+
+    /// Fetches similar titles for an entity, ordered by rank.
+    ///
+    /// Only relations whose target still exists as a movie or TV show are
+    /// returned, so stale rows never surface in the UI.
+    public func fetchSimilar(to entity: EntityRef, limit: Int = 12) throws -> [SimilarTitleItem] {
+        try database.read { db in
+            let sql = """
+                SELECT sim.sim_kind, sim.sim_ref, sim.rank,
+                       COALESCE(m.title, s.title) AS display_title
+                FROM similar sim
+                LEFT JOIN movies m
+                  ON sim.sim_kind = 'movie' AND CAST(m.tmdb_id AS TEXT) = sim.sim_ref
+                LEFT JOIN tv_shows s
+                  ON sim.sim_kind = 'show' AND s.show_id = sim.sim_ref
+                WHERE sim.entity_kind = ? AND sim.entity_ref = ?
+                ORDER BY sim.rank, sim.sim_ref
+                LIMIT ?;
+                """
+            let rows = try Row.fetchAll(
+                db,
+                sql: sql,
+                arguments: [entity.entityKind.rawValue, entity.rawValue, limit]
+            )
+
+            return rows.compactMap { row in
+                guard let kindStr: String = row["sim_kind"],
+                      let simKind = SimilarKind(rawValue: kindStr),
+                      let entityRef: String = row["sim_ref"],
+                      let title: String = row["display_title"],
+                      let rank: Int = row["rank"] else {
+                    return nil
+                }
+
+                switch simKind {
+                case .movie:
+                    return SimilarTitleItem(entityKind: .movie, entityRef: entityRef, title: title, rank: rank)
+                case .show:
+                    return SimilarTitleItem(entityKind: .show, entityRef: entityRef, title: title, rank: rank)
+                case .person:
+                    return nil
+                }
+            }
+        }
+    }
+
     // MARK: - Full-Text Search (Design 01 §5.4, NFR-1)
 
     /// Executes full-text search against the FTS5 search index.

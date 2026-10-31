@@ -5,7 +5,7 @@
 | # | Principle | Consequence |
 |---|---|---|
 | ARCH-P1 | **Capability-driven, not feature-coded** | No `if #available` sprawl for fidelity features. One **CapabilityRegistry** (doc 04 §5) answers "can this box do X?"; UI/pipeline code asks it. New Apple TV 4K hardware = data update. |
-| ARCH-P2 | **Platform-neutral core** | All heavy lifting (demux, metadata, library index, sync engine, pipeline planner) is a set of SPM packages that build on tvOS *and* iOS/macOS. Only the app shell and platform adapters are platform-specific. |
+| ARCH-P2 | **Platform-neutral core** | All heavy lifting (demux, metadata, library index, sync engine, pipeline planner) lives in platform-neutral framework targets that build on tvOS *and* iOS/macOS. Only the app shell and platform adapters are platform-specific. |
 | ARCH-P3 | **Plugin source adapters** | Media sources implement a `SourceAdapter` protocol (doc 03 §1). Adding a source must not touch library or playback code. |
 | ARCH-P4 | **Local-first** | The on-device SQLite index is the runtime source of truth. Servers/cloude provide truth *into* the index; playback and browsing work offline from it. |
 | ARCH-P5 | **Honest pipeline** | Every playback session carries a `PipelinePlan` object (doc 04 §4) that the UI renders and the user can override/lock. |
@@ -111,7 +111,7 @@ Secrets (API keys, share passwords) **never** sync. [07 · Sync & casting](07-sy
 
 | Component | License | Delivery |
 |---|---|---|
-| App + SPM packages | Proprietary | static into app |
+| App + framework modules | Proprietary | linked into app |
 | FFmpeg | LGPL 2.1+ (config: `--enable-nonfree` **off**, `--enable-gpl` **off**) | dynamically linked `.dylib` inside the app (LGPL §6 compliant); source available for binary users |
 | openh264 | BSD (+ Cisco patent grant) | static |
 | Samba-derived SMB client / libssh2 / NFS | GPL-licensed upstreams are **not** statically linkable: use permissive forks (libcsmb? — no, Samba is GPLv3) → **preferred: pure-Swift SMB2 and SFTP clients** so no GPL linkage **[verify feasibility in Phase 0 spike S2]** | static |
@@ -119,8 +119,8 @@ Secrets (API keys, share passwords) **never** sync. [07 · Sync & casting](07-sy
 > **Licensing rule (tracked as ARCH-6 / ARCH-7 in §7):** nothing GPL is statically linked. Dynamic
 > linking of a GPL library is permissible for App Store distribution but
 > avoided where a permissive/pure-Swift implementation exists. LGPL dylibs
-> are fine. CI runs a license audit (e.g., `swift package` SBOM +
-> license-check) on every build.
+> are fine. CI runs a license audit (dependency SBOM + license-check) on
+> every build.
 
 ## 6. Runtime model
 

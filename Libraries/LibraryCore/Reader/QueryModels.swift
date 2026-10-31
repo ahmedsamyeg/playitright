@@ -101,6 +101,27 @@ public struct SearchResultItem: Sendable, Equatable {
     }
 }
 
+public struct SimilarTitleItem: Sendable, Equatable, Identifiable {
+    public let entityKind: EntityKind
+    public let entityRef: String
+    public let title: String
+    public let rank: Int
+
+    public var id: String { "\(entityKind.rawValue):\(entityRef)" }
+
+    public init(
+        entityKind: EntityKind,
+        entityRef: String,
+        title: String,
+        rank: Int
+    ) {
+        self.entityKind = entityKind
+        self.entityRef = entityRef
+        self.title = title
+        self.rank = rank
+    }
+}
+
 public struct CreditDetailItem: Sendable, Equatable, Identifiable {
     public let creditRole: CreditRole
     public let character: String?
