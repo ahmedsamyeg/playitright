@@ -469,7 +469,7 @@ actor RPCConnection {
         accumulated: Data,
         on connection: NWConnection,
         continuation: CheckedContinuation<Data, Error>
-    ) {
+    ){
         let remaining = count - accumulated.count
         guard remaining > 0 else {
             continuation.resume(returning: accumulated)
