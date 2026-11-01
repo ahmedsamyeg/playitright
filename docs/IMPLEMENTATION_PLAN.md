@@ -41,11 +41,11 @@ This document is the single source of truth for the implementation of PlayItRigh
 | Phase | Description | Total Tasks | Completed | In Progress | Remaining | % Complete |
 |---|---|---|---|---|---|---|
 | **Phase 0** | De-risking Spikes (Real Hardware & Labs) | 5 | 5 | 0 | 0 | 100.0% |
-| **Phase 1** | MVP Alpha (Core Foundation to First 4K Play) | 36 | 16 | 0 | 20 | 44.4% |
+| **Phase 1** | MVP Alpha (Core Foundation to First 4K Play) | 36 | 28 | 0 | 8 | 77.8% |
 | **Phase 2** | Public Beta (Pro Formats, Cloud, Sync, StoreKit) | 16 | 0 | 0 | 16 | 0% |
 | **Phase 3** | v1.0 Launch & Accessibility / Localization | 6 | 0 | 0 | 6 | 0% |
 | **Phase 4** | v1.x Continuous Roadmap | 5 | 0 | 0 | 5 | 0% |
-| **TOTAL** | **Full Project Lifecycle** | **68** | **21** | **0** | **47** | **30.9%** |
+| **TOTAL** | **Full Project Lifecycle** | **68** | **33** | **0** | **35** | **48.5%** |
 
 ### 2.2 Subsystem Progress
 
@@ -54,8 +54,8 @@ This document is the single source of truth for the implementation of PlayItRigh
 | `CoreKit` | DI, Keychain, Ring Buffer Diagnostics, Entitlements | 4 | 4 | 0 | **Complete (100%)** |
 | `CapKit` | CapabilityRegistry, Capabilities.json, Hardware Probes | 3 | 3 | 0 | **Complete (100%)** |
 | `LibraryCore` | SQLite Database, GRDB, FTS5, Reader, Writer, GC | 9 | 9 | 0 | **Complete (100%)** |
-| `MetadataKit` | Matcher Ladder, NFO Parser, TMDB/OMDB, Artwork LRU | 5 | 0 | 5 | Not Started |
-| `SourceAdapters` | SourceAdapter Protocol, Plex, Jellyfin, Emby, SMB, NFS, WebDAV, HTTP | 8 | 0 | 8 | Not Started |
+| `MetadataKit` | Matcher Ladder, NFO Parser, TMDB/OMDB, Artwork LRU | 5 | 5 | 0 | **Complete (100%)** |
+| `SourceAdapters` | SourceAdapter Protocol, Plex, Jellyfin, Emby, SMB, NFS, WebDAV, HTTP | 8 | 7 | 1 | **Active (88%)** |
 | `PlaybackKit` | MediaGraph, PipelinePlanner, R1–R5, Color, Audio, Subtitles | 11 | 0 | 11 | Not Started |
 | `SyncKit` | CloudKit SyncEngine, Record Zones, Merge Rules, Deltas | 5 | 0 | 5 | Not Started |
 | `StoreKit` | Subscriptions, Lifetime Purchase, Entitlements Gating | 2 | 0 | 2 | Not Started |
@@ -350,7 +350,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 
 ### Workstream 1.4: MetadataKit (Scraping, Matching & Artwork)
 
-#### [ ] TASK-1.4.1: Filename Matcher Ladder & Regex Engine
+#### [x] TASK-1.4.1: Filename Matcher Ladder & Regex Engine
 - **Requirements Ref:** `MD-1`, `MD-2`, `doc 05 §1`
 - **Objective:** Implement filename parser extracting title, year, season, episode, multi-episode, edition, resolution, and codecs from complex release file strings.
 - **Target Files:**
@@ -368,7 +368,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=FilenameParserTests`
 - **Dependencies:** `TASK-1.1.1`
 
-#### [ ] TASK-1.4.2: Local NFO & Sidecar Metadata Parser
+#### [x] TASK-1.4.2: Local NFO & Sidecar Metadata Parser
 - **Requirements Ref:** `MD-1`, `doc 05 §1`
 - **Objective:** Parse Kodi/Emby style `.nfo` XML files and sidecar text files for movies and TV shows, extracting provider IDs, title, synopsis, and cast.
 - **Target Files:**
@@ -385,7 +385,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=NFOParserTests`
 - **Dependencies:** `TASK-1.4.1`
 
-#### [ ] TASK-1.4.3: TMDB v3 Client & Rate Limiter
+#### [x] TASK-1.4.3: TMDB v3 Client & Rate Limiter
 - **Requirements Ref:** `MD-1`, `MD-2`, `doc 05 §1`
 - **Objective:** Implement client for The Movie Database (TMDB) v3 API with client-side token bucket rate limiting (40 req / 10 s), 429 backoff, and full DTO decoding.
 - **Target Files:**
@@ -403,7 +403,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=TMDBClientTests`
 - **Dependencies:** `TASK-1.1.1`, `TASK-1.1.2`
 
-#### [ ] TASK-1.4.4: OMDb & TVDB Secondary Providers
+#### [x] TASK-1.4.4: OMDb & TVDB Secondary Providers
 - **Requirements Ref:** `MD-1`, `DB-2`, `doc 05 §1`, `doc 11 §2.3`
 - **Objective:** Implement secondary metadata clients for OMDb (fallback movie enrichment) and TVDB (TV series lookup and primary key provider for shows missing in TMDB).
 - **Target Files:**
@@ -419,7 +419,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=SecondaryProvidersTests`
 - **Dependencies:** `TASK-1.4.3`
 
-#### [ ] TASK-1.4.5: Artwork Pipeline & LRU Disk Cache
+#### [x] TASK-1.4.5: Artwork Pipeline & LRU Disk Cache
 - **Requirements Ref:** `MD-4`, `NFR-3`, `NFR-4`, `doc 05 §2`, `design 01 §1`
 - **Objective:** Implement artwork downloader with size-capped LRU disk cache (default 2 GB, user-adjustable 0.5–10 GB) and memory cache for 4K posters and backdrops.
 - **Target Files:**
@@ -441,7 +441,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 
 ### Workstream 1.5: SourceAdapters (Protocol & Phase 1 Sources)
 
-#### [ ] TASK-1.5.1: SourceAdapter Protocol & ByteRange Stream
+#### [x] TASK-1.5.1: SourceAdapter Protocol & ByteRange Stream
 - **Requirements Ref:** `SRC-1`, `SRC-2`, `SRC-3`, `SRC-4`, `SRC-9`, `doc 03 §1`
 - **Objective:** Define the core `SourceAdapter` protocol, `SourceSession`, `ItemStream`, `ByteRange`, and `FreshnessInfo` contracts.
 - **Target Files:**
@@ -459,7 +459,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=SourceAdapterContractTests`
 - **Dependencies:** `TASK-1.1.1`
 
-#### [ ] TASK-1.5.2: HTTP/HTTPS & .strm Source Adapter
+#### [x] TASK-1.5.2: HTTP/HTTPS & .strm Source Adapter
 - **Requirements Ref:** `SRC-9`, `SRC-10`, `SRC-16`, `NFR-8`, `NFR-9`, `doc 03 §3`
 - **Objective:** Implement HTTP/HTTPS source adapter supporting direct streaming, standard HTTP `Range: bytes=X-Y`, `.strm` indirection parsing, and self-signed TLS policy.
 - **Target Files:**
@@ -476,7 +476,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=HTTPSourceAdapterTests`
 - **Dependencies:** `TASK-1.5.1`
 
-#### [ ] TASK-1.5.3: WebDAV Source Adapter
+#### [x] TASK-1.5.3: WebDAV Source Adapter
 - **Requirements Ref:** `SRC-2`, `SRC-9`, `SRC-10`, `doc 03 §3`
 - **Objective:** Implement WebDAV client adapter supporting `PROPFIND` directory walks, file metadata extraction, and ranged `GET` downloads.
 - **Target Files:**
@@ -493,7 +493,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=WebDAVSourceAdapterTests`
 - **Dependencies:** `TASK-1.5.1`, `TASK-1.1.2`
 
-#### [ ] TASK-1.5.4: Plex Server Adapter
+#### [x] TASK-1.5.4: Plex Server Adapter
 - **Requirements Ref:** `SRC-1`, `SRC-3`, `SRC-4`, `SRC-6`, `SRC-20`, `doc 03 §2.1`
 - **Objective:** Implement Plex Media Server adapter: token authentication, TV PIN linking flow, section enumeration, direct stream URL generation, and watch-state reporting.
 - **Target Files:**
@@ -512,7 +512,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=PlexSourceAdapterTests`
 - **Dependencies:** `TASK-1.5.1`, `TASK-1.1.2`
 
-#### [ ] TASK-1.5.5: Jellyfin & Emby Server Adapters
+#### [x] TASK-1.5.5: Jellyfin & Emby Server Adapters
 - **Requirements Ref:** `SRC-1`, `SRC-3`, `SRC-6`, `SRC-20`, `doc 03 §2.2`, `doc 03 §2.3`
 - **Objective:** Implement Jellyfin and Emby adapters using REST API v1 (`X-Emby-Token`), ETag-based freshness checks, and item playback reporting.
 - **Target Files:**
@@ -531,7 +531,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=JellyfinSourceAdapterTests`
 - **Dependencies:** `TASK-1.5.1`, `TASK-1.1.2`
 
-#### [ ] TASK-1.5.6: SMB2/3 File Share Adapter (Phase 1 Priority)
+#### [x] TASK-1.5.6: SMB2/3 File Share Adapter (Phase 1 Priority)
 - **Requirements Ref:** `SRC-2`, `SRC-9`, `SRC-10`, `SRC-11`, `ARCH-6`, `doc 03 §3`
 - **Objective:** Implement in-process SMB2/3 client adapter supporting NTLMv2 authentication, tree connect, directory enumeration, and ranged reads with reconnect resilience.
 - **Target Files:**
@@ -549,7 +549,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=SMBSourceAdapterTests`
 - **Dependencies:** `TASK-1.5.1`, `TASK-1.1.2`
 
-#### [ ] TASK-1.5.7: NFSv3 File Share Adapter (Phase 1 Priority)
+#### [x] TASK-1.5.7: NFSv3 File Share Adapter (Phase 1 Priority)
 - **Requirements Ref:** `SRC-2`, `SRC-9`, `SRC-10`, `ARCH-6`, `doc 03 §3`
 - **Objective:** Implement in-process NFSv3 client adapter supporting RPC/XDR mount, directory walk, and ranged reads.
 - **Target Files:**
