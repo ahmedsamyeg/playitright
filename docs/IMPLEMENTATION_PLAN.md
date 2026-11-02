@@ -41,11 +41,11 @@ This document is the single source of truth for the implementation of PlayItRigh
 | Phase | Description | Total Tasks | Completed | In Progress | Remaining | % Complete |
 |---|---|---|---|---|---|---|
 | **Phase 0** | De-risking Spikes (Real Hardware & Labs) | 5 | 5 | 0 | 0 | 100.0% |
-| **Phase 1** | MVP Alpha (Core Foundation to First 4K Play) | 36 | 28 | 0 | 8 | 77.8% |
+| **Phase 1** | MVP Alpha (Core Foundation to First 4K Play) | 36 | 35 | 0 | 1 | 97.2% |
 | **Phase 2** | Public Beta (Pro Formats, Cloud, Sync, StoreKit) | 16 | 0 | 0 | 16 | 0% |
 | **Phase 3** | v1.0 Launch & Accessibility / Localization | 6 | 0 | 0 | 6 | 0% |
 | **Phase 4** | v1.x Continuous Roadmap | 5 | 0 | 0 | 5 | 0% |
-| **TOTAL** | **Full Project Lifecycle** | **68** | **33** | **0** | **35** | **48.5%** |
+| **TOTAL** | **Full Project Lifecycle** | **68** | **40** | **0** | **28** | **58.8%** |
 
 ### 2.2 Subsystem Progress
 
@@ -55,8 +55,8 @@ This document is the single source of truth for the implementation of PlayItRigh
 | `CapKit` | CapabilityRegistry, Capabilities.json, Hardware Probes | 3 | 3 | 0 | **Complete (100%)** |
 | `LibraryCore` | SQLite Database, GRDB, FTS5, Reader, Writer, GC | 9 | 9 | 0 | **Complete (100%)** |
 | `MetadataKit` | Matcher Ladder, NFO Parser, TMDB/OMDB, Artwork LRU | 5 | 5 | 0 | **Complete (100%)** |
-| `SourceAdapters` | SourceAdapter Protocol, Plex, Jellyfin, Emby, SMB, NFS, WebDAV, HTTP | 8 | 7 | 1 | **Active (88%)** |
-| `PlaybackKit` | MediaGraph, PipelinePlanner, R1–R5, Color, Audio, Subtitles | 11 | 0 | 11 | Not Started |
+| `SourceAdapters` | SourceAdapter Protocol, Plex, Jellyfin, Emby, SMB, NFS, WebDAV, HTTP, Sync | 8 | 8 | 0 | **Complete (100%)** |
+| `PlaybackKit` | MediaGraph, PipelinePlanner, R1–R5, Color, Audio, Subtitles | 11 | 6 | 5 | **Active (54%)** |
 | `SyncKit` | CloudKit SyncEngine, Record Zones, Merge Rules, Deltas | 5 | 0 | 5 | Not Started |
 | `StoreKit` | Subscriptions, Lifetime Purchase, Entitlements Gating | 2 | 0 | 2 | Not Started |
 | `PlayItRight (App)`| SwiftUI 10-Foot UI, Focus, Player, Badge, Settings | 11 | 0 | 11 | Not Started |
@@ -565,7 +565,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=NFSSourceAdapterTests`
 - **Dependencies:** `TASK-1.5.1`
 
-#### [ ] TASK-1.5.8: Source Freshness Engine & Library Coordinator
+#### [x] TASK-1.5.8: Source Freshness Engine & Library Coordinator
+- **Status:** COMPLETED
 - **Requirements Ref:** `SRC-5`, `SRC-19`, `SRC-20`, `SRC-21`, `MD-12`, `doc 03 §6`
 - **Objective:** Implement `SourceSyncCoordinator` managing scheduled syncs, ETag checks, file change detection, rename tracking (SRC-19), and dispatching files to `MediaDatabaseWriter`.
 - **Target Files:**
@@ -585,7 +586,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 
 ### Workstream 1.6: PlaybackKit (Engine, Planner & Pipelines)
 
-#### [ ] TASK-1.6.1: MediaGraph Demux & Stream Probe
+#### [x] TASK-1.6.1: MediaGraph Demux & Stream Probe
+- **Status:** COMPLETED
 - **Requirements Ref:** `PB-3`, `DB-5`, `doc 04 §2`, `doc 04 §4.1`
 - **Objective:** Implement `MediaGraph` probe inspecting containers and streams using `AVFoundation` for Apple native containers and `FFmpeg` (`avformat`) for MKV/AVI/WebM.
 - **Target Files:**
@@ -604,7 +606,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=MediaGraphTests`
 - **Dependencies:** `TASK-0.3`, `TASK-1.3.5`
 
-#### [ ] TASK-1.6.2: Sink Profile & Display Negotiation
+#### [x] TASK-1.6.2: Sink Profile & Display Negotiation
+- **Status:** COMPLETED
 - **Requirements Ref:** `PB-4`, `PB-6`, `doc 04 §3`
 - **Objective:** Implement `SinkProfileManager` capturing display capabilities (SDR / HDR10 / Dolby Vision, resolution, refresh rate) and audio output routing (Stereo / 5.1 / Atmos / HomePod).
 - **Target Files:**
@@ -621,7 +624,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=SinkProfileTests`
 - **Dependencies:** `TASK-1.2.3`
 
-#### [ ] TASK-1.6.3: PipelinePlanner Decision Ladder (Rungs R1–R5)
+#### [x] TASK-1.6.3: PipelinePlanner Decision Ladder (Rungs R1–R5)
+- **Status:** COMPLETED
 - **Requirements Ref:** `ARCH-P5`, `ARCH-P6`, `PB-G2`, `PB-G3`, `PB-5`, `PB-6`, `doc 04 §4`
 - **Objective:** Implement `PipelinePlanner` selecting the optimal, lowest-cost playback path: R1 (Direct Play) $\to$ R2 (Remux) $\to$ R3 (Hardware Transcode) $\to$ R4 (Software Transcode) $\to$ R5 (Server Transcode).
 - **Target Files:**
@@ -643,7 +647,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=PipelinePlannerTests`
 - **Dependencies:** `TASK-1.6.1`, `TASK-1.6.2`, `TASK-1.2.3`
 
-#### [ ] TASK-1.6.4: R1 Direct Play Pipeline (AVPlayerViewController)
+#### [x] TASK-1.6.4: R1 Direct Play Pipeline (AVPlayerViewController)
+- **Status:** COMPLETED
 - **Requirements Ref:** `PB-G2`, `doc 04 §4.2`, `doc 06 §2.4`
 - **Objective:** Implement R1 direct play pipeline wrapping `AVPlayer` and `AVPlayerItem` with custom resource loader for ranged network streams.
 - **Target Files:**
@@ -659,7 +664,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=DirectPlayPipelineTests`
 - **Dependencies:** `TASK-1.6.3`, `TASK-1.5.1`
 
-#### [ ] TASK-1.6.5: R2 Remux Pipeline (fMP4 Packager)
+#### [x] TASK-1.6.5: R2 Remux Pipeline (fMP4 Packager)
+- **Status:** COMPLETED
 - **Requirements Ref:** `PB-3`, `doc 04 §4.2`, `doc 02 §3`
 - **Objective:** Implement R2 remux pipeline: demux non-Apple container (MKV/WebM) via FFmpeg `libavformat` and repackage video/audio packets into fragmented MP4 (fMP4) stream fed into `AVPlayer`.
 - **Target Files:**
@@ -675,7 +681,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=RemuxPipelineTests`
 - **Dependencies:** `TASK-1.6.4`, `TASK-0.3`
 
-#### [ ] TASK-1.6.6: R3 Hardware Transcode Pipeline (VideoToolbox & Metal)
+#### [x] TASK-1.6.6: R3 Hardware Transcode Pipeline (VideoToolbox & Metal)
+- **Status:** COMPLETED
 - **Requirements Ref:** `ARCH-P6`, `PB-G2`, `PB-16`, `PB-17`, `doc 04 §4.2`, `doc 04 §7`
 - **Objective:** Implement R3 hardware transcode pipeline: VideoToolbox decode $\to$ Metal color transform / tone-map $\to$ VideoToolbox encode / ASBDL render.
 - **Target Files:**

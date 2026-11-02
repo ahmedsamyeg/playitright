@@ -8,6 +8,27 @@ public final class MediaDatabaseReader: Sendable {
         self.database = database
     }
 
+    // MARK: - Source Sync
+
+    /// Fetches the sync-state row for a source.
+    public func fetchSource(sourceId: String) throws -> SourceRecord? {
+        try database.read { db in
+            try SourceRecord.fetchOne(db, key: sourceId)
+        }
+    }
+
+    /// Fetches every indexed file for a source.
+    ///
+    /// The source sync coordinator uses this to diff a fresh enumeration
+    /// against the local index without re-reading the whole library grid.
+    public func fetchFiles(sourceId: String) throws -> [MediaFileRecord] {
+        try database.read { db in
+            try MediaFileRecord
+                .filter(MediaFileRecord.Columns.sourceId == sourceId)
+                .fetchAll(db)
+        }
+    }
+
     // MARK: - Keyset-Paginated Library Grid (Design 01 §5.1, MD-11)
 
     /// Fetches a page of library grid items using keyset pagination.

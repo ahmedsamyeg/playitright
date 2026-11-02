@@ -30,7 +30,8 @@ PlayItRight/
 PlayItRightTests/
   CapKitTests/                  Capability matrix and probe tests
   MetadataKitTests/            Filename matching, NFO, provider, and artwork tests
-  SourceAdaptersTests/          Source adapter contract tests
+  SourceAdaptersTests/          Source adapter contract, protocol, and sync tests
+  PlaybackKitTests/             Media graph, planner, pipeline, and session tests
   CoreKitTests/                 Dependency injection and infrastructure tests
   LibraryCoreTests/             LibraryCore framework tests
   PlaybackSpikeTests/           Playback spike tests (test target only)
@@ -40,14 +41,15 @@ Libraries/
   CoreKit/                      DI, security, diagnostics, and system services
   LibraryCore/                  Media database, models, reader/writer framework
   MetadataKit/                  Filename matching, NFO, metadata providers, artwork
-  SourceAdapters/               Source adapter protocol, byte ranges, source models
+  SourceAdapters/               Source adapters, byte ranges, source models, sync coordinator
   PlaybackSpike/                Phase 0 playback/protocol/sync harnesses
+  PlaybackKit/                  MediaGraph probing, pipeline planning, playback sessions
 ```
 
-`LibraryCore`, `CoreKit`, `CapKit`, `MetadataKit`, and `SourceAdapters` are native framework
-targets inside `PlayItRight.xcodeproj`. The app target links and embeds them; GRDB is a remote
-Swift package dependency of `LibraryCore`. `PlaybackSpike` is test-only support
-code compiled into `PlayItRightTests`. There is no local Swift package.
+`LibraryCore`, `CoreKit`, `CapKit`, `MetadataKit`, `SourceAdapters`, and `PlaybackKit`
+are native framework targets inside `PlayItRight.xcodeproj`. The app target links and embeds
+them; GRDB is a remote Swift package dependency of `LibraryCore`. `PlaybackSpike` is test-only
+support code compiled into `PlayItRightTests`. There is no local Swift package.
 
 Open `PlayItRight.xcodeproj`, select the `PlayItRight` scheme, and run on an
 Apple TV 4K simulator or device. The command-line equivalents are:

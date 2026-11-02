@@ -25,7 +25,7 @@ XCODE_DEVELOPER_DIR ?= $(shell if [ -d /Applications/Xcode.app/Contents/Develope
 XCODEBUILD ?= DEVELOPER_DIR="$(XCODE_DEVELOPER_DIR)" xcodebuild
 XCODE_PROJECT ?= PlayItRight.xcodeproj
 XCODE_SCHEME ?= PlayItRight
-XCODE_TEST_DESTINATION ?= platform=tvOS Simulator,name=Apple TV 4K (3rd generation)
+XCODE_TEST_DESTINATION ?= platform=tvOS Simulator,name=Apple TV 4K (4th generation)
 
 .PHONY: all build build-release test xcode-build xcode-test test-suite xcode-clean \
 	db reset-db clean-db clean-all-dbs clean distclean env-info check-env help
