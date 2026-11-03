@@ -191,6 +191,16 @@
 		AA0000000000000000000080 /* PlaybackKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlaybackKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AA0000000000000000000099 /* Exceptions for "Libraries/PlaybackKit" folder in "PlaybackKit" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Color/Shaders.metal,
+			);
+			target = AA0000000000000000000086 /* PlaybackKit */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		2EE134A13093B89E00195768 /* PlayItRight */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -240,17 +250,10 @@
 		AA000000000000000000008C /* Libraries/PlaybackKit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				AA0000000000000000000099 /* PBXFileSystemSynchronizedBuildFileExceptionSet */,
+				AA0000000000000000000099 /* Exceptions for "Libraries/PlaybackKit" folder in "PlaybackKit" target */,
 			);
 			path = Libraries/PlaybackKit;
 			sourceTree = "<group>";
-		};
-		AA0000000000000000000099 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Color/Shaders.metal,
-			);
-			target = AA0000000000000000000086 /* PlaybackKit */;
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 

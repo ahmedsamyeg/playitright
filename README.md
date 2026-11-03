@@ -84,4 +84,4 @@ make xcode-test     # alias for make test
 
 ## Status
 
-Phase 1 (MVP Alpha) implementation in progress. `LibraryCore` on-device SQLite database engine, migrations, FTS5 search, reader, and writer are implemented and verified. For detailed progress, workstreams, and tasks, consult [docs/IMPLEMENTATION_PLAN.md](<docs/IMPLEMENTATION_PLAN.md>).
+Phase 1 (MVP Alpha) implementation in progress. `CoreKit`, `CapKit`, `LibraryCore`, `MetadataKit`, and `SourceAdapters` are complete and verified, and `PlaybackKit` now covers stream probing, sink negotiation, the R1–R4 pipeline ladder, the Metal tone mapper, fMP4 remux/transcode, audio passthrough/downmix, and SRT/WebVTT/ASS/PGS subtitle rendering. The remaining Phase 1 work is playback session coordination, the quality-badge view model, and the tvOS UI. For detailed progress, workstreams, and tasks, consult [docs/IMPLEMENTATION_PLAN.md](<docs/IMPLEMENTATION_PLAN.md>).

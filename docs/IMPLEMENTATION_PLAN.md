@@ -3,7 +3,7 @@
 **Target Platform:** Apple TV 4K (gen 2, 3, 4; tvOS 18.0+)  
 **Architecture:** Platform-neutral framework modules + tvOS SwiftUI App Shell
 **Licensing Constraints:** LGPL 2.1+ for FFmpeg (dynamic `.dylib` only; no static GPL linkage; pure-Swift/permissive for protocol clients)  
-**Document Status:** ACTIVE · Last Updated: 2026-10-29  
+**Document Status:** ACTIVE · Last Updated: 2026-11-03  
 
 ---
 
@@ -41,11 +41,11 @@ This document is the single source of truth for the implementation of PlayItRigh
 | Phase | Description | Total Tasks | Completed | In Progress | Remaining | % Complete |
 |---|---|---|---|---|---|---|
 | **Phase 0** | De-risking Spikes (Real Hardware & Labs) | 5 | 5 | 0 | 0 | 100.0% |
-| **Phase 1** | MVP Alpha (Core Foundation to First 4K Play) | 36 | 35 | 0 | 1 | 97.2% |
-| **Phase 2** | Public Beta (Pro Formats, Cloud, Sync, StoreKit) | 16 | 0 | 0 | 16 | 0% |
+| **Phase 1** | MVP Alpha (Core Foundation to First 4K Play) | 52 | 38 | 0 | 14 | 73.1% |
+| **Phase 2** | Public Beta (Pro Formats, Cloud, Sync, StoreKit) | 15 | 0 | 0 | 15 | 0% |
 | **Phase 3** | v1.0 Launch & Accessibility / Localization | 6 | 0 | 0 | 6 | 0% |
 | **Phase 4** | v1.x Continuous Roadmap | 5 | 0 | 0 | 5 | 0% |
-| **TOTAL** | **Full Project Lifecycle** | **68** | **40** | **0** | **28** | **58.8%** |
+| **TOTAL** | **Full Project Lifecycle** | **83** | **43** | **0** | **40** | **51.8%** |
 
 ### 2.2 Subsystem Progress
 
@@ -56,13 +56,15 @@ This document is the single source of truth for the implementation of PlayItRigh
 | `LibraryCore` | SQLite Database, GRDB, FTS5, Reader, Writer, GC | 9 | 9 | 0 | **Complete (100%)** |
 | `MetadataKit` | Matcher Ladder, NFO Parser, TMDB/OMDB, Artwork LRU | 5 | 5 | 0 | **Complete (100%)** |
 | `SourceAdapters` | SourceAdapter Protocol, Plex, Jellyfin, Emby, SMB, NFS, WebDAV, HTTP, Sync | 8 | 8 | 0 | **Complete (100%)** |
-| `PlaybackKit` | MediaGraph, PipelinePlanner, R1–R5, Color, Audio, Subtitles | 11 | 6 | 5 | **Active (54%)** |
+| `PlaybackKit` | MediaGraph, PipelinePlanner, R1–R5, Color, Audio, Subtitles | 11 | 9 | 2 | **Active (82%)** |
 | `SyncKit` | CloudKit SyncEngine, Record Zones, Merge Rules, Deltas | 5 | 0 | 5 | Not Started |
 | `StoreKit` | Subscriptions, Lifetime Purchase, Entitlements Gating | 2 | 0 | 2 | Not Started |
 | `PlayItRight (App)`| SwiftUI 10-Foot UI, Focus, Player, Badge, Settings | 11 | 0 | 11 | Not Started |
 | `QA & Test Lab` | Conformance Suite, Automated Benchmarks, Replay | 5 | 0 | 5 | Not Started |
 | `Phase 0 Spikes` | S1-S5 Spikes on Hardware & Protocols | 5 | 5 | 0 | **COMPLETED (5/5)** |
 | `Localization / A11y`| VoiceOver, Contrast, String Catalogs, Translations | 5 | 0 | 5 | Not Started |
+
+> Subsystem totals track planned capability workstreams and may include cross-cutting tasks; the Phase Summary counts the task headings in this document.
 
 ---
 
@@ -145,6 +147,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 ### Workstream 1.1: CoreKit Foundation
 
 #### [x] TASK-1.1.1: CoreKit Module Setup & Dependency Injection
+- **Status:** COMPLETED
 - **Requirements Ref:** `ARCH-P2`, `ARCH-P8`, `doc 02 §2`
 - **Objective:** Initialize `CoreKit` framework target with lightweight, type-safe dependency injection container and service registry.
 - **Target Files:**
@@ -162,6 +165,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** None.
 
 #### [x] TASK-1.1.2: Keychain Storage Abstraction
+- **Status:** COMPLETED
 - **Requirements Ref:** `ARCH-8`, `NFR-7`, `doc 09 §3`
 - **Objective:** Implement secure Keychain wrapper for credential storage with `kSecAttrAccessibleAfterFirstUnlock`. Secrets must never touch disk, logs, or sync payloads.
 - **Target Files:**
@@ -179,6 +183,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.1.1`
 
 #### [x] TASK-1.1.3: Structured Logging & Ring Buffer Diagnostics
+- **Status:** COMPLETED
 - **Requirements Ref:** `ARCH-9`, `NFR-11`, `NFR-12`, `doc 09 §4`
 - **Objective:** Implement structured in-memory ring-buffer logger (5,000 entries max) with log levels, automatic redaction of URLs, tokens, and file paths, and export capability.
 - **Target Files:**
@@ -197,6 +202,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.1.1`
 
 #### [x] TASK-1.1.4: Thermal State & System Resource Monitor
+- **Status:** COMPLETED
 - **Requirements Ref:** `ARCH-6`, `NFR-2`, `PB-24`, `doc 09 §1`
 - **Objective:** Implement `ThermalMonitor` observing `ProcessInfo.thermalStateDidChangeNotification` and exposing an `AsyncStream<ThermalState>` for reactive pipeline downgrades.
 - **Target Files:**
@@ -216,6 +222,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 ### Workstream 1.2: CapKit (Hardware Capabilities & Probes)
 
 #### [x] TASK-1.2.1: Capability Data Model & Bundled Capabilities.json
+- **Status:** COMPLETED
 - **Requirements Ref:** `ARCH-1`, `PB-8`, `PB-9`, `doc 04 §5`
 - **Objective:** Create the static hardware capability matrix model and `Capabilities.json` covering Apple TV 4K gen 2 (A12Z), gen 3 (A15), and gen 4 (A19).
 - **Target Files:**
@@ -234,6 +241,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.1.1`
 
 #### [x] TASK-1.2.2: Runtime VideoToolbox Probes
+- **Status:** COMPLETED
 - **Requirements Ref:** `ARCH-1`, `PB-8`, `PB-10`, `doc 04 §5.1`
 - **Objective:** Implement hardware probe runner that attempts to create `VTDecompressionSession` and `VTCompressionSession` instances with minimal format descriptions to verify actual silicon capabilities.
 - **Target Files:**
@@ -250,6 +258,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.2.1`
 
 #### [x] TASK-1.2.3: CapabilityRegistry Engine
+- **Status:** COMPLETED
 - **Requirements Ref:** `ARCH-1`, `PB-8`, `PB-9`, `PB-10`, `NFR-19`
 - **Objective:** Implement `CapabilityRegistry` as the single authoritative service answering queries like `canHardwareDecode(codec, profile, bitDepth, resolution)` and rejecting unsupported devices (1080p Apple TV HD, 2017 gen 1).
 - **Target Files:**
@@ -314,6 +323,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Tests:** `PlayItRightTests/LibraryCoreTests/MediaDatabaseTests.swift`, `PlayItRightTests/LibraryCoreTests/MediaDatabaseWriterTests.swift`
 
 #### [x] TASK-1.3.8: Similar Titles Table & "More Like This" Queries (DB-11)
+- **Status:** COMPLETED
 - **Requirements Ref:** `DB-11`, `MD-2`, `doc 11 §2.11`, `doc 05 §2`
 - **Objective:** Add schema support and reader/writer queries for `similar` titles table storing entity ref pairs to power "More Like This" recommendations.
 - **Target Files:**
@@ -331,6 +341,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.3.1`
 
 #### [x] TASK-1.3.9: Free-Tier User State Local Export/Import (SYNC-1)
+- **Status:** COMPLETED
 - **Requirements Ref:** `SYNC-1`, `doc 07 §1.1`, `design 01 §1`
 - **Objective:** Implement export of the user-state layer only (`watch_state`, `user_rating`, collections, playlists, pins, prefs) into a standalone JSON file for manual device migration.
 - **Target Files:**
@@ -351,6 +362,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 ### Workstream 1.4: MetadataKit (Scraping, Matching & Artwork)
 
 #### [x] TASK-1.4.1: Filename Matcher Ladder & Regex Engine
+- **Status:** COMPLETED
 - **Requirements Ref:** `MD-1`, `MD-2`, `doc 05 §1`
 - **Objective:** Implement filename parser extracting title, year, season, episode, multi-episode, edition, resolution, and codecs from complex release file strings.
 - **Target Files:**
@@ -369,6 +381,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.1.1`
 
 #### [x] TASK-1.4.2: Local NFO & Sidecar Metadata Parser
+- **Status:** COMPLETED
 - **Requirements Ref:** `MD-1`, `doc 05 §1`
 - **Objective:** Parse Kodi/Emby style `.nfo` XML files and sidecar text files for movies and TV shows, extracting provider IDs, title, synopsis, and cast.
 - **Target Files:**
@@ -386,6 +399,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.4.1`
 
 #### [x] TASK-1.4.3: TMDB v3 Client & Rate Limiter
+- **Status:** COMPLETED
 - **Requirements Ref:** `MD-1`, `MD-2`, `doc 05 §1`
 - **Objective:** Implement client for The Movie Database (TMDB) v3 API with client-side token bucket rate limiting (40 req / 10 s), 429 backoff, and full DTO decoding.
 - **Target Files:**
@@ -404,6 +418,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.1.1`, `TASK-1.1.2`
 
 #### [x] TASK-1.4.4: OMDb & TVDB Secondary Providers
+- **Status:** COMPLETED
 - **Requirements Ref:** `MD-1`, `DB-2`, `doc 05 §1`, `doc 11 §2.3`
 - **Objective:** Implement secondary metadata clients for OMDb (fallback movie enrichment) and TVDB (TV series lookup and primary key provider for shows missing in TMDB).
 - **Target Files:**
@@ -420,6 +435,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.4.3`
 
 #### [x] TASK-1.4.5: Artwork Pipeline & LRU Disk Cache
+- **Status:** COMPLETED
 - **Requirements Ref:** `MD-4`, `NFR-3`, `NFR-4`, `doc 05 §2`, `design 01 §1`
 - **Objective:** Implement artwork downloader with size-capped LRU disk cache (default 2 GB, user-adjustable 0.5–10 GB) and memory cache for 4K posters and backdrops.
 - **Target Files:**
@@ -442,6 +458,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 ### Workstream 1.5: SourceAdapters (Protocol & Phase 1 Sources)
 
 #### [x] TASK-1.5.1: SourceAdapter Protocol & ByteRange Stream
+- **Status:** COMPLETED
 - **Requirements Ref:** `SRC-1`, `SRC-2`, `SRC-3`, `SRC-4`, `SRC-9`, `doc 03 §1`
 - **Objective:** Define the core `SourceAdapter` protocol, `SourceSession`, `ItemStream`, `ByteRange`, and `FreshnessInfo` contracts.
 - **Target Files:**
@@ -460,6 +477,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.1.1`
 
 #### [x] TASK-1.5.2: HTTP/HTTPS & .strm Source Adapter
+- **Status:** COMPLETED
 - **Requirements Ref:** `SRC-9`, `SRC-10`, `SRC-16`, `NFR-8`, `NFR-9`, `doc 03 §3`
 - **Objective:** Implement HTTP/HTTPS source adapter supporting direct streaming, standard HTTP `Range: bytes=X-Y`, `.strm` indirection parsing, and self-signed TLS policy.
 - **Target Files:**
@@ -477,6 +495,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.5.1`
 
 #### [x] TASK-1.5.3: WebDAV Source Adapter
+- **Status:** COMPLETED
 - **Requirements Ref:** `SRC-2`, `SRC-9`, `SRC-10`, `doc 03 §3`
 - **Objective:** Implement WebDAV client adapter supporting `PROPFIND` directory walks, file metadata extraction, and ranged `GET` downloads.
 - **Target Files:**
@@ -494,6 +513,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.5.1`, `TASK-1.1.2`
 
 #### [x] TASK-1.5.4: Plex Server Adapter
+- **Status:** COMPLETED
 - **Requirements Ref:** `SRC-1`, `SRC-3`, `SRC-4`, `SRC-6`, `SRC-20`, `doc 03 §2.1`
 - **Objective:** Implement Plex Media Server adapter: token authentication, TV PIN linking flow, section enumeration, direct stream URL generation, and watch-state reporting.
 - **Target Files:**
@@ -513,6 +533,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.5.1`, `TASK-1.1.2`
 
 #### [x] TASK-1.5.5: Jellyfin & Emby Server Adapters
+- **Status:** COMPLETED
 - **Requirements Ref:** `SRC-1`, `SRC-3`, `SRC-6`, `SRC-20`, `doc 03 §2.2`, `doc 03 §2.3`
 - **Objective:** Implement Jellyfin and Emby adapters using REST API v1 (`X-Emby-Token`), ETag-based freshness checks, and item playback reporting.
 - **Target Files:**
@@ -532,6 +553,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.5.1`, `TASK-1.1.2`
 
 #### [x] TASK-1.5.6: SMB2/3 File Share Adapter (Phase 1 Priority)
+- **Status:** COMPLETED
 - **Requirements Ref:** `SRC-2`, `SRC-9`, `SRC-10`, `SRC-11`, `ARCH-6`, `doc 03 §3`
 - **Objective:** Implement in-process SMB2/3 client adapter supporting NTLMv2 authentication, tree connect, directory enumeration, and ranged reads with reconnect resilience.
 - **Target Files:**
@@ -550,6 +572,7 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Dependencies:** `TASK-1.5.1`, `TASK-1.1.2`
 
 #### [x] TASK-1.5.7: NFSv3 File Share Adapter (Phase 1 Priority)
+- **Status:** COMPLETED
 - **Requirements Ref:** `SRC-2`, `SRC-9`, `SRC-10`, `ARCH-6`, `doc 03 §3`
 - **Objective:** Implement in-process NFSv3 client adapter supporting RPC/XDR mount, directory walk, and ranged reads.
 - **Target Files:**
@@ -699,7 +722,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=HardwareTranscodePipelineTests`
 - **Dependencies:** `TASK-1.6.3`
 
-#### [ ] TASK-1.6.7: R4 Software Transcode Pipeline (FFmpeg & openh264)
+#### [x] TASK-1.6.7: R4 Software Transcode Pipeline (FFmpeg & openh264)
+- **Status:** COMPLETED
 - **Requirements Ref:** `ARCH-P6`, `PB-G2`, `PB-24`, `doc 04 §4.2`
 - **Objective:** Implement R4 software transcode pipeline for codecs lacking hardware support (AV1 on gen 2/3, VP9, MPEG-2, VC-1) using FFmpeg software decode $\to$ Metal $\to$ VideoToolbox/openh264 encode.
 - **Target Files:**
@@ -715,7 +739,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=SoftwareTranscodePipelineTests`
 - **Dependencies:** `TASK-1.6.6`, `TASK-0.3`, `TASK-1.1.4`
 
-#### [ ] TASK-1.6.8: Audio Pipeline & Downmix Matrix
+#### [x] TASK-1.6.8: Audio Pipeline & Downmix Matrix
+- **Status:** COMPLETED
 - **Requirements Ref:** `PB-5`, `PB-11`, `PB-12`, `PB-14`, `doc 04 §6`
 - **Objective:** Implement audio pipeline handling passthrough (AC3/E-AC3 Atmos), hardware decode (AAC, PCM, FLAC), and software decode (DTS, TrueHD) with ITU BS.775 downmix to stereo or 5.1.
 - **Target Files:**
@@ -732,7 +757,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=AudioPipelineTests`
 - **Dependencies:** `TASK-1.6.3`
 
-#### [ ] TASK-1.6.9: Subtitle Parser & Rendering Engine
+#### [x] TASK-1.6.9: Subtitle Parser & Rendering Engine
+- **Status:** COMPLETED
 - **Requirements Ref:** `PB-1`, `PB-2`, `doc 04 §2.3`
 - **Objective:** Implement subtitle demuxing and rendering for text-based formats (SRT, WebVTT, ASS/SSA) and image-based formats (PGS/SUP, VobSub) synchronized to $\pm 1$ frame.
 - **Target Files:**
