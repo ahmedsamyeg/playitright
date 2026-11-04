@@ -255,6 +255,11 @@
 			path = Libraries/PlaybackKit;
 			sourceTree = "<group>";
 		};
+		AA00000000000000000000A0 /* Libraries/PlayItRight */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Libraries/PlayItRight;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -337,6 +342,7 @@
 				AA000000000000000000005F /* Libraries/MetadataKit */,
 				AA000000000000000000006F /* Libraries/SourceAdapters */,
 				AA000000000000000000008C /* Libraries/PlaybackKit */,
+				AA00000000000000000000A0 /* Libraries/PlayItRight */,
 				2EE134A03093B89E00195768 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -381,6 +387,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				2EE134A13093B89E00195768 /* PlayItRight */,
+				AA00000000000000000000A0 /* Libraries/PlayItRight */,
 			);
 			name = PlayItRight;
 			productName = PlayItRight;

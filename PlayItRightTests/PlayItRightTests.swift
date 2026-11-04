@@ -16,7 +16,7 @@ struct PlayItRightTests {
         defer { try? FileManager.default.removeItem(at: directory) }
 
         let databaseURL = directory.appendingPathComponent("library.db")
-        let library = LibraryViewModel(databaseURL: databaseURL)
+        let library = LibraryShellViewModel(databaseURL: databaseURL)
 
         await library.load()
 

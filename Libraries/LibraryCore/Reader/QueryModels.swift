@@ -18,6 +18,13 @@ public struct LibraryGridItem: Sendable, Equatable, Identifiable {
     public let displayTitle: String
     public let tmdbId: Int?
     public let showId: String?
+    public let sourceId: String?
+    public let year: Int?
+    public let ratingScore: Double?
+    public let addedAt: Int64
+    public let has4K: Bool
+    public let hasDolbyVision: Bool
+    public let hasAtmos: Bool
 
     public var id: String { fileId }
 
@@ -28,7 +35,14 @@ public struct LibraryGridItem: Sendable, Equatable, Identifiable {
         durationMs: Int64?,
         displayTitle: String,
         tmdbId: Int?,
-        showId: String?
+        showId: String?,
+        sourceId: String? = nil,
+        year: Int? = nil,
+        ratingScore: Double? = nil,
+        addedAt: Int64 = 0,
+        has4K: Bool = false,
+        hasDolbyVision: Bool = false,
+        hasAtmos: Bool = false
     ) {
         self.fileId = fileId
         self.path = path
@@ -37,6 +51,50 @@ public struct LibraryGridItem: Sendable, Equatable, Identifiable {
         self.displayTitle = displayTitle
         self.tmdbId = tmdbId
         self.showId = showId
+        self.sourceId = sourceId
+        self.year = year
+        self.ratingScore = ratingScore
+        self.addedAt = addedAt
+        self.has4K = has4K
+        self.hasDolbyVision = hasDolbyVision
+        self.hasAtmos = hasAtmos
+    }
+}
+
+/// Sort options offered by the library grid and list (MD-11).
+public enum LibrarySortOrder: String, Sendable, CaseIterable, Codable, Equatable {
+    case title
+    case year
+    case dateAdded
+    case rating
+
+    public var displayName: String {
+        switch self {
+        case .title:
+            return "Title"
+        case .year:
+            return "Year"
+        case .dateAdded:
+            return "Date Added"
+        case .rating:
+            return "Rating"
+        }
+    }
+
+    /// Title sorts A–Z; the other options show the newest/best first.
+    public var isDescending: Bool {
+        self != .title
+    }
+}
+
+/// Keyset cursor for a sorted library page.
+public struct LibrarySortCursor: Sendable, Equatable, Hashable {
+    public let sortKey: String
+    public let fileId: String
+
+    public init(sortKey: String, fileId: String) {
+        self.sortKey = sortKey
+        self.fileId = fileId
     }
 }
 
@@ -73,6 +131,55 @@ public struct ContinueWatchingItem: Sendable, Equatable, Identifiable {
         self.positionMs = positionMs
         self.durationMs = durationMs
         self.lastWatchedAt = lastWatchedAt
+    }
+}
+
+/// A file in the "Recently Added" shelf (MD-9).
+///
+/// `title` prefers the matched movie/show title and falls back to the file path
+/// so newly scanned, not-yet-matched files still appear immediately.
+public struct RecentlyAddedItem: Sendable, Equatable, Identifiable {
+    public let fileId: String
+    public let title: String
+    public let sourceId: String
+    public let addedAt: Int64
+    public let durationMs: Int64?
+    public let tmdbId: Int?
+    public let showId: String?
+
+    public var id: String { fileId }
+
+    public init(
+        fileId: String,
+        title: String,
+        sourceId: String,
+        addedAt: Int64,
+        durationMs: Int64?,
+        tmdbId: Int?,
+        showId: String?
+    ) {
+        self.fileId = fileId
+        self.title = title
+        self.sourceId = sourceId
+        self.addedAt = addedAt
+        self.durationMs = durationMs
+        self.tmdbId = tmdbId
+        self.showId = showId
+    }
+}
+
+/// Summary of one configured source that appears as its own Home shelf.
+public struct LibraryShelfSummary: Sendable, Equatable, Identifiable {
+    public let sourceId: String
+    public let name: String
+    public let itemCount: Int
+
+    public var id: String { sourceId }
+
+    public init(sourceId: String, name: String, itemCount: Int) {
+        self.sourceId = sourceId
+        self.name = name
+        self.itemCount = itemCount
     }
 }
 

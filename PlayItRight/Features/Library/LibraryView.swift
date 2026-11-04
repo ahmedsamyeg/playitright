@@ -7,7 +7,7 @@ import LibraryCore
 import SwiftUI
 
 struct LibraryView: View {
-    let library: LibraryViewModel
+    let library: LibraryShellViewModel
 
     var body: some View {
         NavigationStack {
@@ -77,5 +77,5 @@ private struct LibraryRow: View {
 }
 
 #Preview {
-    LibraryView(library: LibraryViewModel())
+    LibraryView(library: LibraryShellViewModel())
 }

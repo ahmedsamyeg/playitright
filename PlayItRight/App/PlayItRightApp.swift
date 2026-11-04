@@ -7,7 +7,7 @@ import SwiftUI
 
 @main
 struct PlayItRightApp: App {
-    @State private var library = LibraryViewModel()
+    @State private var library = LibraryShellViewModel()
 
     var body: some Scene {
         WindowGroup {

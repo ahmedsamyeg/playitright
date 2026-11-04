@@ -29,6 +29,220 @@ public final class MediaDatabaseReader: Sendable {
         }
     }
 
+    /// Fetches every watch-state row for an account so list/grid views can
+    /// render watched and in-progress indicators without per-row queries.
+    public func fetchWatchStates(account: String) throws -> [WatchStateRecord] {
+        try database.read { db in
+            try WatchStateRecord
+                .filter(WatchStateRecord.Columns.account == account)
+                .fetchAll(db)
+        }
+    }
+
+    /// Fetches genre names for filter chips.
+    public func fetchGenres(kind: GenreKind? = nil) throws -> [GenreRecord] {
+        try database.read { db in
+            var query = GenreRecord.all()
+            if let kind {
+                query = query.filter(GenreRecord.Columns.kind == kind.rawValue)
+            }
+            return try query.order(GenreRecord.Columns.name).fetchAll(db)
+        }
+    }
+
+    /// Fetches every saved Smart Library in display order.
+    public func fetchSmartLibraries() throws -> [SmartLibraryRecord] {
+        try database.read { db in
+            try SmartLibraryRecord
+                .order(SmartLibraryRecord.Columns.ord, SmartLibraryRecord.Columns.id)
+                .fetchAll(db)
+        }
+    }
+
+    // MARK: - Detail Screens (doc 05 §2, doc 06 §2.3)
+
+    public func fetchMovie(tmdbId: Int) throws -> MovieRecord? {
+        try database.read { db in
+            try MovieRecord.fetchOne(db, key: tmdbId)
+        }
+    }
+
+    public func fetchShow(showId: String) throws -> TVShowRecord? {
+        try database.read { db in
+            try TVShowRecord.fetchOne(db, key: showId)
+        }
+    }
+
+    public func fetchSeasons(showId: String) throws -> [SeasonRecord] {
+        try database.read { db in
+            try SeasonRecord
+                .filter(SeasonRecord.Columns.showId == showId)
+                .order(SeasonRecord.Columns.seasonNumber)
+                .fetchAll(db)
+        }
+    }
+
+    public func fetchEpisodes(
+        showId: String,
+        seasonNumber: Int
+    ) throws -> [EpisodeRecord] {
+        try database.read { db in
+            try EpisodeRecord
+                .filter(EpisodeRecord.Columns.showId == showId)
+                .filter(EpisodeRecord.Columns.seasonNumber == seasonNumber)
+                .order(EpisodeRecord.Columns.episodeNumber)
+                .fetchAll(db)
+        }
+    }
+
+    public func fetchMediaFiles(movieId: Int) throws -> [MediaFileRecord] {
+        try database.read { db in
+            try MediaFileRecord
+                .filter(MediaFileRecord.Columns.matchedMovie == movieId)
+                .order(MediaFileRecord.Columns.path)
+                .fetchAll(db)
+        }
+    }
+
+    public func fetchMediaFiles(showId: String) throws -> [MediaFileRecord] {
+        try database.read { db in
+            try MediaFileRecord
+                .filter(MediaFileRecord.Columns.matchedShow == showId)
+                .order(MediaFileRecord.Columns.path)
+                .fetchAll(db)
+        }
+    }
+
+    public func fetchMediaFiles(episodeRef: String) throws -> [MediaFileRecord] {
+        try database.read { db in
+            try MediaFileRecord
+                .filter(MediaFileRecord.Columns.matchedEpisode == episodeRef)
+                .order(MediaFileRecord.Columns.path)
+                .fetchAll(db)
+        }
+    }
+
+    public func fetchTracks(fileId: String) throws -> [TrackRecord] {
+        try database.read { db in
+            try TrackRecord
+                .filter(TrackRecord.Columns.fileId == fileId)
+                .order(TrackRecord.Columns.kind, TrackRecord.Columns.index)
+                .fetchAll(db)
+        }
+    }
+
+    public func fetchArtwork(
+        entityKind: EntityKind,
+        entityRef: String,
+        kind: ArtworkKind
+    ) throws -> ArtworkRecord? {
+        try database.read { db in
+            try ArtworkRecord
+                .filter(ArtworkRecord.Columns.entityKind == entityKind.rawValue)
+                .filter(ArtworkRecord.Columns.entityRef == entityRef)
+                .filter(ArtworkRecord.Columns.kind == kind.rawValue)
+                .filter(ArtworkRecord.Columns.localPath != nil)
+                .order(ArtworkRecord.Columns.variant)
+                .fetchOne(db)
+        }
+    }
+
+    // MARK: - Home Shelves (Design 01 §5.1, MD-9)
+
+    /// Fetches every configured source, oldest first, for per-library shelves.
+    public func fetchSources() throws -> [SourceRecord] {
+        try database.read { db in
+            try SourceRecord
+                .order(SourceRecord.Columns.addedAt, SourceRecord.Columns.sourceId)
+                .fetchAll(db)
+        }
+    }
+
+    /// Fetches the most recently indexed files across every source.
+    ///
+    /// Uses a simple `added_at` keyset-friendly ordering so the home shelf can
+    /// page with `addedAt`/`fileId` cursors without offset scans (NFR-1).
+    public func fetchRecentlyAdded(
+        limit: Int = 20,
+        before: (addedAt: Int64, fileId: String)? = nil
+    ) throws -> [RecentlyAddedItem] {
+        try database.read { db in
+            var sql = """
+                SELECT f.file_id, f.source_id, f.added_at, f.duration_ms,
+                       COALESCE(m.title, s.title, f.path) AS display,
+                       m.tmdb_id, s.show_id
+                FROM media_files f
+                LEFT JOIN movies m ON m.tmdb_id = f.matched_movie
+                LEFT JOIN tv_shows s ON s.show_id = f.matched_show
+                """
+            var args: [DatabaseValueConvertible] = []
+
+            if let before {
+                sql += """
+                     WHERE (f.added_at < ? OR (f.added_at = ? AND f.file_id < ?))
+                    """
+                args.append(before.addedAt)
+                args.append(before.addedAt)
+                args.append(before.fileId)
+            }
+
+            sql += " ORDER BY f.added_at DESC, f.file_id DESC LIMIT ?;"
+            args.append(limit)
+
+            let rows = try Row.fetchAll(db, sql: sql, arguments: StatementArguments(args))
+            return rows.compactMap { row in
+                guard let fileId: String = row["file_id"],
+                      let sourceId: String = row["source_id"],
+                      let addedAt: Int64 = row["added_at"],
+                      let display: String = row["display"] else {
+                    return nil
+                }
+                let durationMs: Int64? = row["duration_ms"]
+                let tmdbId: Int? = row["tmdb_id"]
+                let showId: String? = row["show_id"]
+
+                return RecentlyAddedItem(
+                    fileId: fileId,
+                    title: display,
+                    sourceId: sourceId,
+                    addedAt: addedAt,
+                    durationMs: durationMs,
+                    tmdbId: tmdbId,
+                    showId: showId
+                )
+            }
+        }
+    }
+
+    /// Returns source shelves with their current item counts.
+    public func fetchLibraryShelves() throws -> [LibraryShelfSummary] {
+        try database.read { db in
+            let rows = try Row.fetchAll(
+                db,
+                sql: """
+                    SELECT s.source_id, s.name, COUNT(f.file_id) AS item_count
+                    FROM sources s
+                    LEFT JOIN media_files f ON f.source_id = s.source_id
+                    WHERE s.status <> 'disabled'
+                    GROUP BY s.source_id, s.name, s.added_at
+                    ORDER BY s.added_at, s.source_id;
+                    """
+            )
+            return rows.compactMap { row in
+                guard let sourceId: String = row["source_id"],
+                      let name: String = row["name"],
+                      let itemCount: Int = row["item_count"] else {
+                    return nil
+                }
+                return LibraryShelfSummary(
+                    sourceId: sourceId,
+                    name: name,
+                    itemCount: itemCount
+                )
+            }
+        }
+    }
+
     // MARK: - Keyset-Paginated Library Grid (Design 01 §5.1, MD-11)
 
     /// Fetches a page of library grid items using keyset pagination.
@@ -39,8 +253,29 @@ public final class MediaDatabaseReader: Sendable {
     ) throws -> [LibraryGridItem] {
         try database.read { db in
             var sql = """
-                SELECT f.file_id, f.path, f.match_state, f.duration_ms,
+                SELECT f.file_id, f.path, f.match_state, f.duration_ms, f.source_id,
+                       f.added_at,
                        COALESCE(m.title, s.title, f.path) AS display,
+                       COALESCE(CAST(substr(m.release_date,1,4) AS INTEGER),
+                                CAST(substr(s.first_air_date,1,4) AS INTEGER)) AS year,
+                       COALESCE(m.rating_score, s.rating_score) AS rating,
+                       EXISTS(
+                           SELECT 1 FROM tracks t
+                           WHERE t.file_id = f.file_id AND t.kind = 'video'
+                             AND (t.width >= 3800 OR t.height >= 2100)
+                       ) AS has_4k,
+                       EXISTS(
+                           SELECT 1 FROM tracks t
+                           WHERE t.file_id = f.file_id AND t.kind = 'video'
+                             AND (LOWER(COALESCE(t.hdr_format,'')) LIKE '%dolby%'
+                                  OR LOWER(COALESCE(t.profile,'')) LIKE '%dv%')
+                       ) AS has_dolby_vision,
+                       EXISTS(
+                           SELECT 1 FROM tracks t
+                           WHERE t.file_id = f.file_id AND t.kind = 'audio'
+                             AND (LOWER(COALESCE(t.channel_layout,'')) LIKE '%atmos%'
+                                  OR (t.channels >= 8 AND t.codec IN ('truehd','eac3')))
+                       ) AS has_atmos,
                        m.tmdb_id, s.show_id
                 FROM media_files f
                 LEFT JOIN movies m ON m.tmdb_id = f.matched_movie
@@ -76,6 +311,13 @@ public final class MediaDatabaseReader: Sendable {
                 let durationMs: Int64? = row["duration_ms"]
                 let tmdbId: Int? = row["tmdb_id"]
                 let showId: String? = row["show_id"]
+                let sourceId: String? = row["source_id"]
+                let year: Int? = row["year"]
+                let rating: Double? = row["rating"]
+                let addedAt: Int64 = row["added_at"] ?? 0
+                let has4K: Bool = row["has_4k"] ?? false
+                let hasDolbyVision: Bool = row["has_dolby_vision"] ?? false
+                let hasAtmos: Bool = row["has_atmos"] ?? false
 
                 return LibraryGridItem(
                     fileId: fileId,
@@ -84,10 +326,153 @@ public final class MediaDatabaseReader: Sendable {
                     durationMs: durationMs,
                     displayTitle: display,
                     tmdbId: tmdbId,
-                    showId: showId
+                    showId: showId,
+                    sourceId: sourceId,
+                    year: year,
+                    ratingScore: rating,
+                    addedAt: addedAt,
+                    has4K: has4K,
+                    hasDolbyVision: hasDolbyVision,
+                    hasAtmos: hasAtmos
                 )
             }
         }
+    }
+
+    /// Fetches a keyset-paginated library page sorted by title, year, date
+    /// added, or rating (MD-11, NFR-1).
+    public func fetchLibraryGridPage(
+        sourceId: String? = nil,
+        sortedBy: LibrarySortOrder = .title,
+        after cursor: LibrarySortCursor? = nil,
+        limit: Int = 50
+    ) throws -> [LibraryGridItem] {
+        try database.read { db in
+            let sortExpression: String
+            switch sortedBy {
+            case .title:
+                sortExpression = "COALESCE(m.title, s.title, f.path) COLLATE NOCASE"
+            case .year:
+                sortExpression = """
+                    printf('%010d', COALESCE(
+                        CAST(substr(m.release_date,1,4) AS INTEGER),
+                        CAST(substr(s.first_air_date,1,4) AS INTEGER),
+                        0))
+                    """
+            case .dateAdded:
+                sortExpression = "printf('%020lld', f.added_at)"
+            case .rating:
+                sortExpression = "printf('%08.3f', COALESCE(m.rating_score, s.rating_score, 0))"
+            }
+
+            var sql = """
+                SELECT f.file_id, f.path, f.match_state, f.duration_ms, f.source_id,
+                       f.added_at, \(sortExpression) AS sort_key,
+                       COALESCE(m.title, s.title, f.path) AS display,
+                       COALESCE(CAST(substr(m.release_date,1,4) AS INTEGER),
+                                CAST(substr(s.first_air_date,1,4) AS INTEGER)) AS year,
+                       COALESCE(m.rating_score, s.rating_score) AS rating,
+                       EXISTS(
+                           SELECT 1 FROM tracks t
+                           WHERE t.file_id = f.file_id AND t.kind = 'video'
+                             AND (t.width >= 3800 OR t.height >= 2100)
+                       ) AS has_4k,
+                       EXISTS(
+                           SELECT 1 FROM tracks t
+                           WHERE t.file_id = f.file_id AND t.kind = 'video'
+                             AND (LOWER(COALESCE(t.hdr_format,'')) LIKE '%dolby%'
+                                  OR LOWER(COALESCE(t.profile,'')) LIKE '%dv%')
+                       ) AS has_dolby_vision,
+                       EXISTS(
+                           SELECT 1 FROM tracks t
+                           WHERE t.file_id = f.file_id AND t.kind = 'audio'
+                             AND (LOWER(COALESCE(t.channel_layout,'')) LIKE '%atmos%'
+                                  OR (t.channels >= 8 AND t.codec IN ('truehd','eac3')))
+                       ) AS has_atmos,
+                       m.tmdb_id, s.show_id
+                FROM media_files f
+                LEFT JOIN movies m ON m.tmdb_id = f.matched_movie
+                LEFT JOIN tv_shows s ON s.show_id = f.matched_show
+                WHERE 1=1
+                """
+            var args: [DatabaseValueConvertible] = []
+
+            if let sourceId {
+                sql += " AND f.source_id = ?"
+                args.append(sourceId)
+            }
+
+            if let cursor {
+                let comparison = sortedBy.isDescending ? "<" : ">"
+                sql += """
+                     AND (sort_key \(comparison) ? OR (sort_key = ? AND f.file_id \(comparison) ?))
+                    """
+                args.append(cursor.sortKey)
+                args.append(cursor.sortKey)
+                args.append(cursor.fileId)
+            }
+
+            let direction = sortedBy.isDescending ? "DESC" : "ASC"
+            sql += " ORDER BY sort_key \(direction), f.file_id \(direction) LIMIT ?;"
+            args.append(limit)
+
+            let rows = try Row.fetchAll(db, sql: sql, arguments: StatementArguments(args))
+            return rows.compactMap { row in
+                guard let fileId: String = row["file_id"],
+                      let path: String = row["path"],
+                      let matchStateStr: String = row["match_state"],
+                      let matchState = MatchState(rawValue: matchStateStr),
+                      let display: String = row["display"] else {
+                    return nil
+                }
+                let durationMs: Int64? = row["duration_ms"]
+                let tmdbId: Int? = row["tmdb_id"]
+                let showId: String? = row["show_id"]
+                let sourceId: String? = row["source_id"]
+                let year: Int? = row["year"]
+                let rating: Double? = row["rating"]
+                let addedAt: Int64 = row["added_at"] ?? 0
+                let has4K: Bool = row["has_4k"] ?? false
+                let hasDolbyVision: Bool = row["has_dolby_vision"] ?? false
+                let hasAtmos: Bool = row["has_atmos"] ?? false
+
+                return LibraryGridItem(
+                    fileId: fileId,
+                    path: path,
+                    matchState: matchState,
+                    durationMs: durationMs,
+                    displayTitle: display,
+                    tmdbId: tmdbId,
+                    showId: showId,
+                    sourceId: sourceId,
+                    year: year,
+                    ratingScore: rating,
+                    addedAt: addedAt,
+                    has4K: has4K,
+                    hasDolbyVision: hasDolbyVision,
+                    hasAtmos: hasAtmos
+                )
+            }
+        }
+    }
+
+    /// Builds the cursor for the last item of a sorted page.
+    public static func cursor(
+        for item: LibraryGridItem,
+        sortedBy: LibrarySortOrder
+    ) -> LibrarySortCursor {
+        let key: String
+        switch sortedBy {
+        case .title:
+            key = item.displayTitle
+        case .year:
+            key = String(format: "%010d", item.year ?? 0)
+        case .dateAdded:
+            key = String(format: "%020lld", item.addedAt)
+        case .rating:
+            key = String(format: "%08.3f", item.ratingScore ?? 0)
+        }
+        return LibrarySortCursor(sortKey: key, fileId: item.fileId)
     }
 
     // MARK: - Continue Watching (Design 01 §5.2)

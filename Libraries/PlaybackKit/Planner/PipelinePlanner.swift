@@ -187,9 +187,9 @@ public struct PipelinePlanner: Sendable {
         }
 
         if contentHDR.isDolbyVision {
-            let profile = contentHDR.dolbyVisionProfile ?? 8
+            let profile = contentHDR.dolbyVisionProfileValue ?? 8
             if display.supportsDolbyVision,
-               capabilities.supportsDolbyVision(profile: Double(profile)) {
+               capabilities.supportsDolbyVision(profile: profile) {
                 reasons.append(
                     "\(contentHDR.rawValue) is presented directly by the Dolby Vision display."
                 )

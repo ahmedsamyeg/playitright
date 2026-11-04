@@ -41,11 +41,11 @@ This document is the single source of truth for the implementation of PlayItRigh
 | Phase | Description | Total Tasks | Completed | In Progress | Remaining | % Complete |
 |---|---|---|---|---|---|---|
 | **Phase 0** | De-risking Spikes (Real Hardware & Labs) | 5 | 5 | 0 | 0 | 100.0% |
-| **Phase 1** | MVP Alpha (Core Foundation to First 4K Play) | 52 | 38 | 0 | 14 | 73.1% |
+| **Phase 1** | MVP Alpha (Core Foundation to First 4K Play) | 52 | 52 | 0 | 0 | 100.0% |
 | **Phase 2** | Public Beta (Pro Formats, Cloud, Sync, StoreKit) | 15 | 0 | 0 | 15 | 0% |
 | **Phase 3** | v1.0 Launch & Accessibility / Localization | 6 | 0 | 0 | 6 | 0% |
 | **Phase 4** | v1.x Continuous Roadmap | 5 | 0 | 0 | 5 | 0% |
-| **TOTAL** | **Full Project Lifecycle** | **83** | **43** | **0** | **40** | **51.8%** |
+| **TOTAL** | **Full Project Lifecycle** | **83** | **57** | **0** | **26** | **68.7%** |
 
 ### 2.2 Subsystem Progress
 
@@ -56,11 +56,11 @@ This document is the single source of truth for the implementation of PlayItRigh
 | `LibraryCore` | SQLite Database, GRDB, FTS5, Reader, Writer, GC | 9 | 9 | 0 | **Complete (100%)** |
 | `MetadataKit` | Matcher Ladder, NFO Parser, TMDB/OMDB, Artwork LRU | 5 | 5 | 0 | **Complete (100%)** |
 | `SourceAdapters` | SourceAdapter Protocol, Plex, Jellyfin, Emby, SMB, NFS, WebDAV, HTTP, Sync | 8 | 8 | 0 | **Complete (100%)** |
-| `PlaybackKit` | MediaGraph, PipelinePlanner, R1–R5, Color, Audio, Subtitles | 11 | 9 | 2 | **Active (82%)** |
+| `PlaybackKit` | MediaGraph, PipelinePlanner, R1–R5, Color, Audio, Subtitles, Session, ViewModels | 11 | 11 | 0 | **Complete (100%)** |
 | `SyncKit` | CloudKit SyncEngine, Record Zones, Merge Rules, Deltas | 5 | 0 | 5 | Not Started |
 | `StoreKit` | Subscriptions, Lifetime Purchase, Entitlements Gating | 2 | 0 | 2 | Not Started |
-| `PlayItRight (App)`| SwiftUI 10-Foot UI, Focus, Player, Badge, Settings | 11 | 0 | 11 | Not Started |
-| `QA & Test Lab` | Conformance Suite, Automated Benchmarks, Replay | 5 | 0 | 5 | Not Started |
+| `PlayItRight (App)`| SwiftUI 10-Foot UI, Focus, Player, Badge, Settings | 11 | 11 | 0 | **✅ Complete (100%)** |
+| `QA & Test Lab` | Conformance Suite, Automated Benchmarks, Replay | 5 | 1 | 4 | **Active (20%)** |
 | `Phase 0 Spikes` | S1-S5 Spikes on Hardware & Protocols | 5 | 5 | 0 | **COMPLETED (5/5)** |
 | `Localization / A11y`| VoiceOver, Contrast, String Catalogs, Translations | 5 | 0 | 5 | Not Started |
 
@@ -777,7 +777,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=SubtitleEngineTests`
 - **Dependencies:** `TASK-1.6.3`
 
-#### [ ] TASK-1.6.10: PlaybackSession Coordinator & Watch-State Flusher
+#### [x] TASK-1.6.10: PlaybackSession Coordinator & Watch-State Flusher
+- **Status:** COMPLETED
 - **Requirements Ref:** `PB-18`, `PB-19`, `PB-20`, `PB-21`, `PB-22`, `MD-6`, `NFR-16`, `doc 04 §8`
 - **Objective:** Implement `PlaybackSession` coordinator managing play, pause, seek, audio/video drift correction ($\le 40$ ms), and periodic watch-state flushes (1 s in-memory, 10 s to database).
 - **Target Files:**
@@ -794,7 +795,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=PlaybackSessionTests`
 - **Dependencies:** `TASK-1.6.4`, `TASK-1.3.5`
 
-#### [ ] TASK-1.6.11: Quality Badge & Pipeline Detail View Model
+#### [x] TASK-1.6.11: Quality Badge & Pipeline Detail View Model
+- **Status:** COMPLETED
 - **Requirements Ref:** `PRD-D1`, `PB-5`, `UI-3`, `doc 01 §2`, `doc 06 §2.4`
 - **Objective:** Implement view model generating the honest quality badge and expandable pipeline detail sheet (in/out codec, color transform, audio path, reasons, thermal state).
 - **Target Files:**
@@ -813,7 +815,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 
 ### Workstream 1.7: tvOS App Shell & UI (10-Foot Design)
 
-#### [ ] TASK-1.7.1: tvOS Design System & Focus Foundation
+#### [x] TASK-1.7.1: tvOS Design System & Focus Foundation
+- **Status:** COMPLETED
 - **Requirements Ref:** `doc 06 §1`, `UI-1`, `UI-4`, `UI-7`
 - **Objective:** Create SwiftUI 10-foot design system tokens (colors, typography, 12-pt grid, focus scaling 1.06x, dark-first HDR-safe palettes) and custom focus wrapper.
 - **Target Files:**
@@ -829,7 +832,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=DesignTokensTests`
 - **Dependencies:** `TASK-1.1.1`
 
-#### [ ] TASK-1.7.2: First-Launch Onboarding View
+#### [x] TASK-1.7.2: First-Launch Onboarding View
+- **Status:** COMPLETED
 - **Requirements Ref:** `UI-1`, `doc 06 §2.1`
 - **Objective:** Implement 3-question sink setup (Display: SDR/HDR/DoVi, Audio: Stereo/5.1/Atmos/HomePod, Source type) and initial source connection flow culminating in instant first playback.
 - **Target Files:**
@@ -845,7 +849,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=OnboardingViewModelTests`
 - **Dependencies:** `TASK-1.6.2`, `TASK-1.7.1`
 
-#### [ ] TASK-1.7.3: Home View & Continue Watching Row
+#### [x] TASK-1.7.3: Home View & Continue Watching Row
+- **Status:** COMPLETED
 - **Requirements Ref:** `MD-9`, `doc 06 §2.2`
 - **Objective:** Implement tvOS Home view with reorderable shelves: "Continue Watching" (with circular progress indicators), "Recently Added", and per-library shelves.
 - **Target Files:**
@@ -862,7 +867,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=HomeViewModelTests`
 - **Dependencies:** `TASK-1.3.6`, `TASK-1.7.1`
 
-#### [ ] TASK-1.7.4: Library Grid & List Views
+#### [x] TASK-1.7.4: Library Grid & List Views
+- **Status:** COMPLETED
 - **Requirements Ref:** `MD-11`, `NFR-1`, `doc 06 §2.3`
 - **Objective:** Implement virtualized poster grid and list views with corner tech badges (`4K`, `DoVi`, `Atmos`), watched indicators, and sort/density options.
 - **Target Files:**
@@ -880,7 +886,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=LibraryViewModelTests`
 - **Dependencies:** `TASK-1.3.6`, `TASK-1.4.5`
 
-#### [ ] TASK-1.7.5: Filter Bar & Smart Library Save View
+#### [x] TASK-1.7.5: Filter Bar & Smart Library Save View
+- **Status:** COMPLETED
 - **Requirements Ref:** `MD-4`, `doc 05 §4`, `doc 06 §2.3`
 - **Objective:** Implement library filter bar (source, watched status, genre, resolution, codec, HDR) and ability to save active filters as a Smart Library.
 - **Target Files:**
@@ -896,7 +903,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=FilterBarViewModelTests`
 - **Dependencies:** `TASK-1.3.6`
 
-#### [ ] TASK-1.7.6: Movie & TV Show Detail Views
+#### [x] TASK-1.7.6: Movie & TV Show Detail Views
+- **Status:** COMPLETED
 - **Requirements Ref:** `doc 06 §2.3`, `doc 05 §2`, `DB-4`
 - **Objective:** Implement rich detail screens: full-bleed hero backdrop, title, overview, cast & crew shelf with headshots, technical metadata badges (clickable to pipeline explainer), audio/subtitle tracks preview, and action buttons ("Play", "Mark Watched", "Add to Collection").
 - **Target Files:**
@@ -914,7 +922,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=DetailViewModelTests`
 - **Dependencies:** `TASK-1.3.6`, `TASK-1.4.5`
 
-#### [ ] TASK-1.7.7: Video Player Overlay & Remote Interaction
+#### [x] TASK-1.7.7: Video Player Overlay & Remote Interaction
+- **Status:** COMPLETED
 - **Requirements Ref:** `UI-1`, `UI-2`, `doc 06 §2.4`
 - **Objective:** Implement tvOS player controls overlay: auto-hide timer (3 s), scrub bar with chapter markers, play/pause, $\pm 10$ s skip, next/prev chapter, audio and subtitle menus, and Siri Remote clickpad bindings.
 - **Target Files:**
@@ -931,7 +940,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=PlayerOverlayViewModelTests`
 - **Dependencies:** `TASK-1.6.10`
 
-#### [ ] TASK-1.7.8: Quality Badge Overlay & Pipeline Sheet
+#### [x] TASK-1.7.8: Quality Badge Overlay & Pipeline Sheet
+- **Status:** COMPLETED
 - **Requirements Ref:** `PRD-D1`, `PB-5`, `UI-3`, `doc 01 §2`, `doc 06 §2.4`
 - **Objective:** Implement quality badge in top-right of player (subtle, dimmable) and modal pipeline sheet detailing decoding, color transformation, audio mixing, and thermal status.
 - **Target Files:**
@@ -947,7 +957,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=PipelineDetailSheetTests`
 - **Dependencies:** `TASK-1.6.11`
 
-#### [ ] TASK-1.7.9: Settings & Capability Sheet View
+#### [x] TASK-1.7.9: Settings & Capability Sheet View
+- **Status:** COMPLETED
 - **Requirements Ref:** `UI-3`, `doc 06 §2.5`
 - **Objective:** Implement comprehensive settings: Sources management, Playback preferences (display profile, audio setup, quality bias), Library settings (cache size, rescan), Privacy & Diagnostics, and "About This Apple TV" (visual hardware capability sheet).
 - **Target Files:**
@@ -964,7 +975,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=SettingsViewModelTests`
 - **Dependencies:** `TASK-1.2.3`, `TASK-1.4.5`
 
-#### [ ] TASK-1.7.10: Search & Unmatched Media Review Views
+#### [x] TASK-1.7.10: Search & Unmatched Media Review Views
+- **Status:** COMPLETED
 - **Requirements Ref:** `MD-1`, `MD-2`, `doc 05 §1`, `doc 06 §2.6`
 - **Objective:** Implement instant search interface (FTS5 local index $\le 300$ ms per keystroke) and "Fix Matching" view allowing users to resolve unmatched or low-confidence media items.
 - **Target Files:**
@@ -981,7 +993,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 - **Verification:** `make test-suite SUITE=SearchViewModelTests`
 - **Dependencies:** `TASK-1.3.6`, `TASK-1.4.3`
 
-#### [ ] TASK-1.7.11: Diagnostics Export & Error Recovery Card
+#### [x] TASK-1.7.11: Diagnostics Export & Error Recovery Card
+- **Status:** COMPLETED
 - **Requirements Ref:** `NFR-12`, `NFR-15`, `doc 06 §2.4`, `doc 09 §4`
 - **Objective:** Implement playback error recovery card ("Try software", "Try server transcode", "Report diagnostics") and user-initiated diagnostic report export.
 - **Target Files:**
@@ -1000,7 +1013,8 @@ Spikes resolve all Apple platform uncertainties (**[verify]** items) prior to fu
 
 ### Workstream 1.8: Alpha Conformance & Verification Gate
 
-#### [ ] TASK-1.8.1: Media Test Asset Fixtures & Conformance Suite
+#### [x] TASK-1.8.1: Media Test Asset Fixtures & Conformance Suite
+- **Status:** COMPLETED
 - **Requirements Ref:** `NFR-25`, `PB-G1`, `PB-G2`, `doc 09 §8`, `doc 10 §Phase 1`
 - **Objective:** Create automated test suite running against real mini-assets ($\le 5$ MB) covering H.264, HEVC 8/10-bit, HDR10, HLG, Dolby Vision Profile 5/8/8.1, AAC, AC3, and E-AC3 Atmos.
 - **Target Files:**

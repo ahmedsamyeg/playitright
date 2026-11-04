@@ -1,5 +1,5 @@
 //
-//  LibraryViewModel.swift
+//  LibraryShellViewModel.swift
 //  PlayItRight
 //
 
@@ -10,7 +10,7 @@ import Observation
 /// Owns the on-device library database for the app shell.
 @MainActor
 @Observable
-final class LibraryViewModel {
+final class LibraryShellViewModel {
     enum State: Equatable {
         case loading
         case loaded([LibraryGridItem])

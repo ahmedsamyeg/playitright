@@ -170,10 +170,7 @@ public struct AVFoundationStreamProbe: MediaStreamProbing {
             width: Int(dimensions.width),
             height: Int(dimensions.height),
             frameRate: frameRate,
-            bitDepth: extensionInt(
-                description,
-                keys: ["BitsPerComponent", "Depth"]
-            ),
+            bitDepth: Self.videoBitDepth(from: description),
             bitrate: Int(estimatedDataRate),
             colorPrimaries: colorPrimaries(from: description),
             transferFunction: transfer,
@@ -547,6 +544,33 @@ public struct AVFoundationStreamProbe: MediaStreamProbing {
             }
         }
         return nil
+    }
+
+    /// AVFoundation sometimes reports `Depth` as total colour depth (24 for
+    /// 8-bit 4:2:0) rather than per-component bits. Normalize to the bit depth
+    /// the planner expects so 8-bit H.264 is not mistaken for an unsupported
+    /// 24-bit format.
+    private static func videoBitDepth(
+        from description: CMFormatDescription
+    ) -> Int? {
+        guard let raw = extensionInt(
+            description,
+            keys: ["BitsPerComponent", "Depth"]
+        ) else {
+            return nil
+        }
+        switch raw {
+        case 24:
+            return 8
+        case 30:
+            return 10
+        case 36:
+            return 12
+        case 48:
+            return 16
+        default:
+            return raw > 16 ? 8 : raw
+        }
     }
 
     private static func extensionInt(

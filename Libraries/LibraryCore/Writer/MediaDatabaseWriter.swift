@@ -546,6 +546,20 @@ public final class MediaDatabaseWriter: Sendable {
     // MARK: - Watch State Operations (DB-7, MD-6/7)
 
     /// Upserts watch state progress and metadata.
+    /// Saves (or replaces) a Smart Library definition.
+    public func saveSmartLibrary(_ record: SmartLibraryRecord) throws {
+        try database.write { db in
+            try record.save(db)
+        }
+    }
+
+    /// Removes a Smart Library definition.
+    public func deleteSmartLibrary(id: String) throws {
+        _ = try database.write { db in
+            try SmartLibraryRecord.deleteOne(db, key: id)
+        }
+    }
+
     public func saveWatchState(_ record: WatchStateRecord) throws {
         try database.write { db in
             try record.save(db)
