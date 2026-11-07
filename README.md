@@ -1,89 +1,91 @@
 # PlayItRight
 
-A complete Apple tvOS video player and media library app, built for the **Apple TV 4K** — a full alternative to
-[Infuse by Firecore](https://firecore.com/infuse).
+A complete Apple tvOS video player and media library app built for the **Apple TV 4K** — a full alternative to [Infuse by Firecore](https://firecore.com/infuse).
 
-PlayItRight plays anything you own or stream:
+## Feature set
 
-- **Play it all** — MKV, MP4, ISO, BDMV, WEBM, and every other format. For
-  every format the hardware supports, PlayItRight uses **Apple hardware
-  acceleration**; bundled software transcoding steps in only for formats the
-  Apple TV can't do in hardware — so Dolby Vision, HDR10, HDR10+, HLG, Dolby
-  Atmos, and DTS content always plays, on any display.
-- **Beautiful library** — automatic metadata, artwork, cast, ratings, and
-  trailers from any source, organized the way you think — backed by a local
-  media database keyed on TMDB/TVDB ids with full cast & crew records.
-- **Every source** — Plex, Jellyfin, Emby, SMB, NFS, WebDAV, FTP/SFTP, UPnP,
-  cloud drives, and local files.
-- **Synced** — libraries, watch state, and in-progress resume across your
-  devices, plus AirPlay and Google Cast.
+### Playback
+- **Hardware-first pipeline ladder (R1–R5).** Every file resolves through the cheapest pipeline the sink supports: direct play → remux → hardware transcode → software transcode → FFmpeg fallback. The planner is honest about the chosen rung, and the badge in the player always matches reality.
+- **Every video codec.** Apple hardware acceleration for H.264, HEVC, VP9 (gen 4), and AV1 (gen 4); a bundled software decoder covers the rest — AV1, VP8/VP9, VVC/H.266, MPEG-1/2, VC-1, WMV, DivX/Xvid, and more.
+- **Every HDR format.** HDR10, HDR10+ (with dynamic-metadata processing), HLG, and Dolby Vision Profiles 5 / 8 / 8.1. Profile 7 (dual-track UHD Blu-ray) and Profile 8 RPUs are remapped to 8.1 in real time so gen-4 hardware decodes them directly; picture data is never touched.
+- **Every audio format.** **Dolby Atmos, E-AC-3/JOC, DTS, DTS-HD Master Audio, and TrueHD** decode in software where hardware can't and pass through to receivers that can; configurable downmix.
+- **Subtitles.** SRT, WebVTT, ASS/SSA, and PGS/SUP rendering with language/track switching mid-playback, plus *user-initiated* downloads from OpenSubtitles and Subscene with automatic sidecar caching.
+- **Aspect control.** Contained, anamorphic de-squeeze, custom 2.39:1 letterbox cropping, and user stretch — including full 21:9 ultrawide panel support.
 
-## Repository layout
+### Library
+- **Local-first media database** (SQLite via GRDB) storing movies, shows, seasons, episodes, cast & crew, files, and watch state, keyed on provider IDs.
+- **Automatic metadata** from TMDB, TVDB, and OMDb, a NFO sidecar parser, and a filename-matching ladder with a *Fix Matching* workflow for unmatched files.
+- **Artwork pipeline** with LRU caching; posters, backdrops, and cast images.
+- **Smart Libraries** — saved filters for genre, codec, watch state, source, and more — plus virtualized grid/list views with sort and density controls.
 
-```
-PlayItRight.xcodeproj/          tvOS app project + shared scheme
-PlayItRight/
-  App/                          App entry point and shell
-  Features/
-    Library/                    Library screen and its view model
-  Resources/                    Asset catalogs and other resources
-PlayItRightTests/
-  CapKitTests/                  Capability matrix and probe tests
-  MetadataKitTests/            Filename matching, NFO, provider, and artwork tests
-  SourceAdaptersTests/          Source adapter contract, protocol, and sync tests
-  PlaybackKitTests/             Media graph, planner, pipeline, and session tests
-  CoreKitTests/                 Dependency injection and infrastructure tests
-  LibraryCoreTests/             LibraryCore framework tests
-  ConformanceTests/             Alpha playback conformance matrix
-  Fixtures/                     Tiny real media assets for conformance tests
-  PlaybackSpikeTests/           Playback spike tests (test target only)
-PlayItRightUITests/             App UI tests
-Libraries/
-  CapKit/                       Capability matrix, runtime probes, registry
-  CoreKit/                      DI, security, diagnostics, and system services
-  LibraryCore/                  Media database, models, reader/writer framework
-  MetadataKit/                  Filename matching, NFO, metadata providers, artwork
-  SourceAdapters/               Source adapters, byte ranges, source models, sync coordinator
-  PlaybackSpike/                Phase 0 playback/protocol/sync harnesses
-  PlaybackKit/                  MediaGraph probing, pipeline planning, playback sessions
-```
+### Sources
+- **Media servers:** Plex, Jellyfin, Emby.
+- **File shares & network:** SMB, NFS, WebDAV, FTP, SFTP, HTTP(S), UPnP/DLNA, and local files.
+- **Disc images:** ISO and BDMV (Blu-ray folder structure) parsing.
+- **Cloud drives:** Box, Dropbox, Google Drive, and OneDrive with OAuth device-flow sign-in.
 
-`LibraryCore`, `CoreKit`, `CapKit`, `MetadataKit`, `SourceAdapters`, and `PlaybackKit`
-are native framework targets inside `PlayItRight.xcodeproj`. The app target links and embeds
-them; GRDB is a remote Swift package dependency of `LibraryCore`. `PlaybackSpike` is test-only
-support code compiled into `PlayItRightTests`. There is no local Swift package.
+### Sync, casting & multi-platform
+- **CloudKit sync** for library state, watch progress, and resume points across devices, with conflict-safe merge rules.
+- **AirPlay and Google Cast** out of the player.
+- **Companion apps:** an iOS/iPadOS library browser, and macOS (14+) and visionOS (2+) shells of the shared library framework.
 
-Open `PlayItRight.xcodeproj`, select the `PlayItRight` scheme, and run on an
-Apple TV 4K simulator or device. The command-line equivalents are:
+### Trust & transparency
+- **Zero telemetry.** No third-party analytics or crash SDKs; a privacy manifest declares no tracking and no collected data, and a CI-enforced audit allowlists every network host in the codebase.
+- **Redacted diagnostics export** users control; credentials, paths, and IPs are stripped before leaving the device.
+- **Honest quality badge** — what the pipeline is actually doing (which rung, which decoder, which tone-map) with a technical drill-down sheet.
+- **Friendware pricing** (doc 08): a fair free tier, with a StoreKit 2 Pro tier unlocking premium formats and features; validated subscription flow with entitlement gating.
+
+## Quick start
+
+Open `PlayItRight.xcodeproj`, select the `PlayItRight` scheme, and run on an Apple TV 4K (simulator or device), or use the command-line:
 
 ```sh
 make build          # build the tvOS app + LibraryCore framework
 make test           # app, core, and UI tests on the tvOS simulator
-make xcode-build    # alias for make build
-make xcode-test     # alias for make test
+make test-ios       # iOS companion and shared LibraryCore tests
+make build-mac      # macOS shell of the shared LibraryCore framework
+make build-vision   # visionOS shell of the shared LibraryCore framework (Simulator)
 ```
+
+See **[DEVELOPMENT.md](DEVELOPMENT.md)** for environment setup, the full command reference, architecture overview, testing conventions, and the development-history log.
+
+## Repository layout
+
+```
+PlayItRight.xcodeproj/          tvOS project + all targets and shared schemes
+PlayItRight/                    tvOS app target (App shell, Features, Resources)
+PlayItRightTests/               700 unit tests across 92 suites
+PlayItRightUITests/             App-level UI tests
+Libraries/
+  CapKit/                       Capability matrix, runtime hardware probes, registry
+  CoreKit/                      DI, Keychain, diagnostics, system services
+  LibraryCore/                  SQLite media database, models, reader/writer
+  MetadataKit/                  Matching, NFO, TMDB/TVDB/OMDb, artwork, subtitle downloads
+  SourceAdapters/               Plex/Jellyfin/Emby, SMB/NFS/WebDAV/FTP/SFTP, UPnP, disc, cloud
+  PlaybackKit/                  MediaGraph, pipeline planner, HDR color, audio, subtitles, session
+  StoreKit/                     StoreKit 2 purchases, entitlements, Pro gating
+  SyncKit/                      CloudKit sync engine, records, merge rules
+  PlayItRightCompanion/         iOS/iPadOS companion app
+  PlayItRightMac/               macOS shell (shared LibraryCore)
+  PlayItRightVision/            visionOS shell (shared LibraryCore)
+  PlaybackSpike/                Phase 0 spikes (test-target-only support code)
+```
+
+All product code lives in six native framework targets inside the Xcode project; GRDB is the single remote Swift package dependency (of `LibraryCore`). There is no local Swift package.
 
 ## Documentation
 
 | Document | Contents |
 |---|---|
-| [docs/specs/README.md](<docs/specs/README.md>) | Spec index, how to read, glossary, requirement IDs |
-| [docs/specs/01-product-overview.md](<docs/specs/01-product-overview.md>) | Vision, personas, feature pillars, free/Pro tiers, KPIs |
-| [docs/specs/02-architecture.md](<docs/specs/02-architecture.md>) | Module design, tech stack, data flows, build & licensing |
-| [docs/specs/03-media-sources.md](<docs/specs/03-media-sources.md>) | Plex / Jellyfin / Emby / file share / cloud / local source adapters |
-| [docs/specs/04-playback-engine.md](<docs/specs/04-playback-engine.md>) | Format matrices, Apple TV capability matrix, pipeline planner, HDR/DoVi & audio transcoding |
-| [docs/specs/05-metadata-and-library.md](<docs/specs/05-metadata-and-library.md>) | Scraping, matching, artwork, watch state, organization |
-| [docs/specs/06-ui-ux.md](<docs/specs/06-ui-ux.md>) | 10-foot UI, screens, accessibility |
-| [docs/specs/07-sync-and-casting.md](<docs/specs/07-sync-and-casting.md>) | CloudKit sync, AirPlay, Google Cast |
-| [docs/specs/08-business-model.md](<docs/specs/08-business-model.md>) | Free vs Pro, StoreKit, entitlements |
-| [docs/specs/09-non-functional-requirements.md](<docs/specs/09-non-functional-requirements.md>) | Performance, power, security, privacy, i18n, reliability |
-| [docs/specs/10-roadmap.md](<docs/specs/10-roadmap.md>) | Phased delivery plan |
-| [docs/specs/11-media-database.md](<docs/specs/11-media-database.md>) | Media database schema: provider-keyed movies/shows, files, cast & crew, watch state, sync boundary |
-| [docs/specs/appendix-a-infuse-reference.md](<docs/specs/appendix-a-infuse-reference.md>) | Infuse reference specs (extracted from firecore.com) |
-| [docs/design/README.md](<docs/design/README.md>) | Design index (implementation how; specs are the what) |
-| [docs/design/01-media-database.md](<docs/design/01-media-database.md>) | Media database design: on-device storage, full DDL, concurrency, migrations, recovery, query catalog, tests |
-| [docs/IMPLEMENTATION_PLAN.md](<docs/IMPLEMENTATION_PLAN.md>) | Master Implementation Plan & Agent Tracking System |
+| [DEVELOPMENT.md](DEVELOPMENT.md) | Developer guide: setup, commands, architecture, testing, history |
+| [docs/specs/README.md](<docs/specs/README.md>) | Spec index, requirement IDs, glossary |
+| [docs/specs/*.md](<docs/specs/README.md>) | Domain specs: product, architecture, sources, playback, metadata, UI, sync, business, NFRs, roadmap, database |
+| [docs/design/README.md](<docs/design/README.md>) | Design index (the *how*; the specs are the *what*) |
+| [docs/design/01-media-database.md](<docs/design/01-media-database.md>) | Database design: DDL, concurrency, migrations, recovery |
+| [docs/development/IMPLEMENTATION_PLAN.md](<docs/development/IMPLEMENTATION_PLAN.md>) | Master task tracker & agent log (83/83 complete) |
+| [docs/development/research/](<docs/development/research/s1-playback-results.md>) | Phase 0 hardware/spike findings (playback, protocols, FFmpeg, servers, CloudKit) |
+| [AppStoreMetadata/](AppStoreMetadata/app-store-metadata.md) | App Store metadata, release notes, screenshots |
 
 ## Status
 
-**Phase 1 (MVP Alpha) is complete.** `CoreKit`, `CapKit`, `LibraryCore`, `MetadataKit`, `SourceAdapters`, and `PlaybackKit` are complete and verified. `PlaybackKit` covers stream probing, sink negotiation, the R1–R5 pipeline ladder, the Metal tone mapper, fMP4 remux/transcode, audio passthrough/downmix, and SRT/WebVTT/ASS/PGS subtitle rendering, plus playback session coordination with drift correction and watch-state flushing, and the honest quality-badge view model with its technical drill-down. The tvOS app has its 10-foot design system and focus foundation, the first-launch onboarding flow that saves the sink profile and connects the first source with live scan counts, a Home screen with reorderable Continue Watching, Recently Added, and per-library shelves, virtualized library grid/list views with sort, density, watched indicators, and 4K/DoVi/Atmos badges, the filter bar that saves and recalls Smart Libraries, rich movie/show detail screens with cast, tracks, season/episode progress, and next-unwatched playback, the auto-hiding player overlay with chapter navigation, track menus, and debounced scrubbing, the honest quality badge with its pipeline detail sheet and per-source/codec path lock, the settings screen with source management, playback preferences, artwork-cache maintenance, and the "About This Apple TV" capability sheet, instant local search and the Fix Matching workflow for unmatched files, and redacted diagnostics export with the playback error-recovery card. The Phase 1 alpha conformance gate now runs real H.264/HEVC/HDR/HLG/AC-3/E-AC-3 mini-assets plus recorded Dolby Vision and Atmos probes, asserting the 2-second startup budget, rung selection, and badge accuracy. For detailed progress, workstreams, and tasks, consult [docs/IMPLEMENTATION_PLAN.md](<docs/IMPLEMENTATION_PLAN.md>).
+**All 83 planned tasks across Phases 0–4 are complete** — from de-risking spikes through MVP, public beta, the v1.0 launch (accessibility + localization), and the Phase 4 platform expansion (macOS/visionOS targets, HDR10+ DVM processing, Dolby Vision profile remapping, subtitle provider downloads, and 21:9/aspect control). The full, task-by-task history lives in [docs/development/IMPLEMENTATION_PLAN.md](<docs/development/IMPLEMENTATION_PLAN.md>).

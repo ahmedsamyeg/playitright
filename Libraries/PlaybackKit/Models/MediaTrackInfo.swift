@@ -133,6 +133,11 @@ public enum SubtitleFormat: String, Codable, Sendable, CaseIterable {
     case dvbsub
     case movText = "mov-text"
     case ttml
+    case microDVD = "microdvd"
+    case mpl2
+    case tmp
+    case txt
+    case xsub
     case other
 }
 

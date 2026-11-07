@@ -128,9 +128,10 @@ public struct PipelineDetailSheet: View {
 
                 ForEach(Array(viewModel.reasons.enumerated()), id: \.offset) { _, reason in
                     HStack(alignment: .top, spacing: DesignGrid.spacing(1)) {
-                        Text("•")
+                        Text(verbatim: "•")
                             .font(DesignTypography.body)
                             .foregroundStyle(DesignTokens.palette.textTertiary.color)
+                            .accessibilityHidden(true)
 
                         Text(reason)
                             .font(DesignTypography.body)

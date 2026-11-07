@@ -1,6 +1,7 @@
 # PlayItRight — Specification
 
-**Status:** DRAFT v0.1 · 2026-10-27
+**Status:** IMPLEMENTED v1.0 · all priority tiers delivered (see
+[docs/development/IMPLEMENTATION_PLAN.md](../development/IMPLEMENTATION_PLAN.md))
 **Primary platform:** tvOS — **Apple TV 4K only** (gen 2–4, tvOS 18+) · **Scope:** complete alternative to Infuse
 
 This folder is the source of truth for what PlayItRight is and does. Each

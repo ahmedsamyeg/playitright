@@ -26,8 +26,10 @@ XCODEBUILD ?= DEVELOPER_DIR="$(XCODE_DEVELOPER_DIR)" xcodebuild
 XCODE_PROJECT ?= PlayItRight.xcodeproj
 XCODE_SCHEME ?= PlayItRight
 XCODE_TEST_DESTINATION ?= platform=tvOS Simulator,name=Apple TV 4K (4th generation)
+XCODE_IOS_DESTINATION ?= platform=iOS Simulator,name=iPhone 17
+XCODE_RESULT_BUNDLE_PATH ?=
 
-.PHONY: all build build-release test xcode-build xcode-test test-suite xcode-clean \
+.PHONY: all build build-release build-mac build-vision test xcode-build xcode-test test-suite test-ios archive xcode-clean \
 	db reset-db clean-db clean-all-dbs clean distclean env-info check-env help
 
 ## all: Build the tvOS app and initialize the database for the active environment
@@ -67,7 +69,38 @@ test-suite:
 	$(XCODEBUILD) test -project $(XCODE_PROJECT) -scheme $(XCODE_SCHEME) \
 		-destination '$(XCODE_TEST_DESTINATION)' -configuration Debug \
 		-only-testing:PlayItRightTests/$(SUITE) \
+		$(if $(XCODE_RESULT_BUNDLE_PATH),-resultBundlePath '$(XCODE_RESULT_BUNDLE_PATH)') \
 		CODE_SIGNING_ALLOWED=NO
+
+## test-ios: Run the iOS/iPadOS companion and shared LibraryCore tests
+test-ios:
+	@echo "==> Testing PlayItRightCompanion on iOS..."
+	$(XCODEBUILD) test -project $(XCODE_PROJECT) -scheme PlayItRightCompanion \
+		-destination '$(XCODE_IOS_DESTINATION)' -configuration Debug \
+		CODE_SIGNING_ALLOWED=NO
+
+## build-mac: Build the macOS shell of the shared LibraryCore framework
+build-mac:
+	@echo "==> Building PlayItRightMac for macOS..."
+	$(XCODEBUILD) -project $(XCODE_PROJECT) -scheme PlayItRightMac \
+		-destination 'platform=macOS' -configuration Debug \
+		build CODE_SIGNING_ALLOWED=NO
+
+## build-vision: Build the visionOS shell of the shared LibraryCore framework
+build-vision:
+	@echo "==> Building PlayItRightVision for visionOS..."
+	$(XCODEBUILD) -project $(XCODE_PROJECT) -scheme PlayItRightVision \
+		-destination 'generic/platform=visionOS Simulator' -configuration Debug \
+		build CODE_SIGNING_ALLOWED=NO
+
+## archive: Build a Release archive for App Store validation
+archive:
+	@echo "==> Archiving $(XCODE_SCHEME) for tvOS (Release)..."
+	@mkdir -p build
+	$(XCODEBUILD) archive -project $(XCODE_PROJECT) -scheme $(XCODE_SCHEME) \
+		-destination 'generic/platform=tvOS' -configuration Release \
+		-archivePath build/PlayItRight.xcarchive \
+		CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
 
 ## xcode-clean: Remove Xcode build artifacts for the app scheme
 xcode-clean:

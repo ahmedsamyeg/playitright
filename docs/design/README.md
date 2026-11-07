@@ -4,6 +4,10 @@ Implementation design documents. The specs ([docs/specs/](../specs/README.md))
 say **what** and carry the requirement IDs; design documents say **how** and
 must trace back to those IDs.
 
+**Status:** these design documents describe the database architecture as
+shipped; the task-level record of what was built lives in
+[docs/development/](../development/IMPLEMENTATION_PLAN.md).
+
 | # | Document | Domain |
 |---|---|---|
 | 01 | [Media database](01-media-database.md) | The on-device SQLite store: placement, full DDL, concurrency, migrations, recovery, query catalog, tests |

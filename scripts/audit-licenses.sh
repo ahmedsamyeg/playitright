@@ -14,7 +14,9 @@ VIOLATIONS=0
 PROHIBITED_LICENSES=("GPL-2.0" "GPL-3.0" "AGPL" "SSPL" "CC-BY-NC")
 
 for lic in "${PROHIBITED_LICENSES[@]}"; do
-    if grep -r -i --exclude-dir=".git" --exclude-dir=".build" --exclude-dir="scripts" --exclude="*.md" "${lic}" . 2>/dev/null; then
+    # Build outputs (archives, dSYMs) are compiled artifacts, not licensed
+    # source: scanning them yields false positives on binary content.
+    if grep -r -i --exclude-dir=".git" --exclude-dir=".build" --exclude-dir="scripts" --exclude-dir="build" --exclude-dir="DerivedData" --exclude="*.md" "${lic}" . 2>/dev/null; then
         echo "❌ ERROR: Prohibited license reference found: ${lic}"
         VIOLATIONS=$((VIOLATIONS + 1))
     fi

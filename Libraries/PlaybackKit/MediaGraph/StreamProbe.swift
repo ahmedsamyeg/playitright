@@ -966,6 +966,16 @@ public struct FFmpegStreamProbe: MediaStreamProbing {
             return .movText
         case "ttml":
             return .ttml
+        case "microdvd", "micro_dvd":
+            return .microDVD
+        case "mpl2":
+            return .mpl2
+        case "tmp", "tcp":
+            return .tmp
+        case "txt", "tmplayer":
+            return .txt
+        case "xsub":
+            return .xsub
         default:
             return .other
         }

@@ -42,6 +42,7 @@ public final class SinkProfileManager {
 
     private let observation: () -> SinkObservation
     private let now: () -> Date
+    private var observedAudio: (setup: AudioSetup, routeName: String?)?
     nonisolated(unsafe) private let notificationCenter: NotificationCenter
     nonisolated(unsafe) private var observerTokens: [NSObjectProtocol] = []
 
@@ -81,10 +82,28 @@ public final class SinkProfileManager {
     public func refresh() {
         refreshCount += 1
         profile = Self.makeProfile(
-            observation: observation(),
+            observation: effectiveObservation(),
             overrides: overrides,
             now: now()
         )
+    }
+
+    /// Applies the audio route observed by `AirPlayController` (SYNC-6).
+    ///
+    /// The route override is observational, not a user declaration: it updates
+    /// the audio setup and route name while leaving display overrides intact.
+    public func applyObservedAudio(
+        _ setup: AudioSetup,
+        routeName: String?
+    ) {
+        observedAudio = (setup, routeName)
+        refresh()
+    }
+
+    /// Clears the AirPlay route override and falls back to system observation.
+    public func clearObservedAudio() {
+        observedAudio = nil
+        refresh()
     }
 
     /// Replaces the user declaration and recalculates.
@@ -102,10 +121,19 @@ public final class SinkProfileManager {
     private func rebuild() {
         refreshCount += 1
         profile = Self.makeProfile(
-            observation: observation(),
+            observation: effectiveObservation(),
             overrides: overrides,
             now: now()
         )
+    }
+
+    private func effectiveObservation() -> SinkObservation {
+        var observation = observation()
+        if let observedAudio {
+            observation.audioSetup = observedAudio.setup
+            observation.routeName = observedAudio.routeName
+        }
+        return observation
     }
 
     private static func makeProfile(

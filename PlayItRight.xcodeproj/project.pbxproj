@@ -31,6 +31,19 @@
 		AA0000000000000000000093 /* CapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000040 /* CapKit.framework */; };
 		AA0000000000000000000096 /* SourceAdapters.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000060 /* SourceAdapters.framework */; };
 		AA000000000000000000009A /* CoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000030 /* CoreKit.framework */; };
+		AA00000000000000000000B1 /* SyncKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000B6 /* SyncKit.framework */; };
+		AA00000000000000000000B2 /* SyncKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000B6 /* SyncKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AA00000000000000000000B3 /* SyncKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000B6 /* SyncKit.framework */; };
+		AA00000000000000000000C0 /* PlayItRightStoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000C5 /* PlayItRightStoreKit.framework */; };
+		AA00000000000000000000C1 /* PlayItRightStoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000C5 /* PlayItRightStoreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AA00000000000000000000C2 /* PlayItRightStoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000C5 /* PlayItRightStoreKit.framework */; };
+		DD0000000000000000000007 /* LibraryCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000010 /* LibraryCore.framework */; };
+		DD0000000000000000000008 /* LibraryCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000010 /* LibraryCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD000000000000000000001A /* LibraryCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000010 /* LibraryCore.framework */; };
+		EE0000000000000000000007 /* LibraryCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000010 /* LibraryCore.framework */; };
+		EE0000000000000000000008 /* LibraryCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000010 /* LibraryCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EE0000000000000000000017 /* LibraryCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000010 /* LibraryCore.framework */; };
+		EE0000000000000000000018 /* LibraryCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000010 /* LibraryCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,6 +173,62 @@
 			remoteGlobalIDString = AA0000000000000000000031;
 			remoteInfo = CoreKit;
 		};
+		AA00000000000000000000B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2EE134973093B89E00195768 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA00000000000000000000B9;
+			remoteInfo = SyncKit;
+		};
+		AA00000000000000000000B5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2EE134973093B89E00195768 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA00000000000000000000B9;
+			remoteInfo = SyncKit;
+		};
+		AA00000000000000000000C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2EE134973093B89E00195768 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA00000000000000000000C9;
+			remoteInfo = PlayItRightStoreKit;
+		};
+		AA00000000000000000000C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2EE134973093B89E00195768 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA00000000000000000000C9;
+			remoteInfo = PlayItRightStoreKit;
+		};
+		DD000000000000000000000B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2EE134973093B89E00195768 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000000011;
+			remoteInfo = LibraryCore;
+		};
+		DD0000000000000000000016 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2EE134973093B89E00195768 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000000011;
+			remoteInfo = LibraryCore;
+		};
+		EE000000000000000000000B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2EE134973093B89E00195768 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000000011;
+			remoteInfo = LibraryCore;
+		};
+		EE000000000000000000001B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2EE134973093B89E00195768 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000000011;
+			remoteInfo = LibraryCore;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -174,6 +243,35 @@
 				AA0000000000000000000059 /* MetadataKit.framework in Embed Frameworks */,
 				AA0000000000000000000069 /* SourceAdapters.framework in Embed Frameworks */,
 				AA0000000000000000000082 /* PlaybackKit.framework in Embed Frameworks */,
+				AA00000000000000000000B2 /* SyncKit.framework in Embed Frameworks */,
+				AA00000000000000000000C1 /* PlayItRightStoreKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+		};
+		DD0000000000000000000006 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = Frameworks;
+			files = (
+				DD0000000000000000000008 /* LibraryCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+		};
+		EE0000000000000000000006 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = Frameworks;
+			files = (
+				EE0000000000000000000008 /* LibraryCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+		};
+		EE0000000000000000000016 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = Frameworks;
+			files = (
+				EE0000000000000000000018 /* LibraryCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 		};
@@ -189,7 +287,14 @@
 		AA0000000000000000000050 /* MetadataKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MetadataKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0000000000000000000060 /* SourceAdapters.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SourceAdapters.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0000000000000000000080 /* PlaybackKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlaybackKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA00000000000000000000B6 /* SyncKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SyncKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA00000000000000000000C5 /* PlayItRightStoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayItRightStoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD0000000000000000000002 /* PlayItRightCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayItRightCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD0000000000000000000010 /* PlayItRightCompanionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayItRightCompanionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE0000000000000000000002 /* PlayItRightMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayItRightMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE0000000000000000000012 /* PlayItRightVision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayItRightVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		AA0000000000000000000099 /* Exceptions for "Libraries/PlaybackKit" folder in "PlaybackKit" target */ = {
@@ -260,6 +365,36 @@
 			path = Libraries/PlayItRight;
 			sourceTree = "<group>";
 		};
+		AA00000000000000000000B7 /* Libraries/SyncKit */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Libraries/SyncKit;
+			sourceTree = "<group>";
+		};
+		AA00000000000000000000C6 /* Libraries/StoreKit */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Libraries/StoreKit;
+			sourceTree = "<group>";
+		};
+		DD0000000000000000000009 /* Libraries/PlayItRightCompanion */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Libraries/PlayItRightCompanion;
+			sourceTree = "<group>";
+		};
+		DD0000000000000000000014 /* PlayItRightCompanionTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PlayItRightCompanionTests;
+			sourceTree = "<group>";
+		};
+		EE0000000000000000000009 /* Libraries/PlayItRightMac */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Libraries/PlayItRightMac;
+			sourceTree = "<group>";
+		};
+		EE0000000000000000000019 /* Libraries/PlayItRightVision */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Libraries/PlayItRightVision;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +407,8 @@
 				AA0000000000000000000058 /* MetadataKit.framework in Frameworks */,
 				AA0000000000000000000068 /* SourceAdapters.framework in Frameworks */,
 				AA0000000000000000000081 /* PlaybackKit.framework in Frameworks */,
+				AA00000000000000000000B1 /* SyncKit.framework in Frameworks */,
+				AA00000000000000000000C0 /* PlayItRightStoreKit.framework in Frameworks */,
 			);
 		};
 		2EE134AE3093B89F00195768 /* Frameworks */ = {
@@ -283,9 +420,21 @@
 				AA000000000000000000005C /* MetadataKit.framework in Frameworks */,
 				AA000000000000000000006C /* SourceAdapters.framework in Frameworks */,
 				AA0000000000000000000083 /* PlaybackKit.framework in Frameworks */,
+				AA00000000000000000000B3 /* SyncKit.framework in Frameworks */,
+				AA00000000000000000000C2 /* PlayItRightStoreKit.framework in Frameworks */,
 			);
 		};
 		2EE134B83093B89F00195768 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		AA00000000000000000000B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		AA00000000000000000000C8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
 			);
@@ -326,6 +475,30 @@
 				AA000000000000000000009A /* CoreKit.framework in Frameworks */,
 			);
 		};
+		DD0000000000000000000004 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				DD0000000000000000000007 /* LibraryCore.framework in Frameworks */,
+			);
+		};
+		DD0000000000000000000012 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				DD000000000000000000001A /* LibraryCore.framework in Frameworks */,
+			);
+		};
+		EE0000000000000000000004 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				EE0000000000000000000007 /* LibraryCore.framework in Frameworks */,
+			);
+		};
+		EE0000000000000000000014 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				EE0000000000000000000017 /* LibraryCore.framework in Frameworks */,
+			);
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -343,7 +516,13 @@
 				AA000000000000000000006F /* Libraries/SourceAdapters */,
 				AA000000000000000000008C /* Libraries/PlaybackKit */,
 				AA00000000000000000000A0 /* Libraries/PlayItRight */,
+				AA00000000000000000000B7 /* Libraries/SyncKit */,
+				AA00000000000000000000C6 /* Libraries/StoreKit */,
+				EE0000000000000000000009 /* Libraries/PlayItRightMac */,
+				EE0000000000000000000019 /* Libraries/PlayItRightVision */,
 				2EE134A03093B89E00195768 /* Products */,
+				DD0000000000000000000009 /* Libraries/PlayItRightCompanion */,
+				DD0000000000000000000014 /* PlayItRightCompanionTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -359,6 +538,12 @@
 				AA0000000000000000000050 /* MetadataKit.framework */,
 				AA0000000000000000000060 /* SourceAdapters.framework */,
 				AA0000000000000000000080 /* PlaybackKit.framework */,
+				AA00000000000000000000B6 /* SyncKit.framework */,
+				AA00000000000000000000C5 /* PlayItRightStoreKit.framework */,
+				DD0000000000000000000002 /* PlayItRightCompanion.app */,
+				DD0000000000000000000010 /* PlayItRightCompanionTests.xctest */,
+				EE0000000000000000000002 /* PlayItRightMac.app */,
+				EE0000000000000000000012 /* PlayItRightVision.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -384,6 +569,8 @@
 				AA000000000000000000005A /* PBXTargetDependency */,
 				AA000000000000000000006B /* PBXTargetDependency */,
 				AA000000000000000000008A /* PBXTargetDependency */,
+				AA00000000000000000000B0 /* PBXTargetDependency */,
+				AA00000000000000000000CB /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				2EE134A13093B89E00195768 /* PlayItRight */,
@@ -412,6 +599,8 @@
 				AA000000000000000000005D /* PBXTargetDependency */,
 				AA000000000000000000006E /* PBXTargetDependency */,
 				AA000000000000000000008B /* PBXTargetDependency */,
+				AA00000000000000000000BD /* PBXTargetDependency */,
+				AA00000000000000000000CC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				2EE134B43093B89F00195768 /* PlayItRightTests */,
@@ -560,6 +749,129 @@
 			productReference = AA0000000000000000000080 /* PlaybackKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		AA00000000000000000000B9 /* SyncKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA00000000000000000000BA /* Build configuration list for PBXNativeTarget "SyncKit" */;
+			buildPhases = (
+				AA00000000000000000000BB /* Sources */,
+				AA00000000000000000000B8 /* Frameworks */,
+				AA00000000000000000000BC /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				AA00000000000000000000B7 /* Libraries/SyncKit */,
+			);
+			name = SyncKit;
+			productName = SyncKit;
+			productReference = AA00000000000000000000B6 /* SyncKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		AA00000000000000000000C9 /* PlayItRightStoreKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA00000000000000000000CF /* Build configuration list for PBXNativeTarget "PlayItRightStoreKit" */;
+			buildPhases = (
+				AA00000000000000000000C7 /* Sources */,
+				AA00000000000000000000C8 /* Frameworks */,
+				AA00000000000000000000CA /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				AA00000000000000000000C6 /* Libraries/StoreKit */,
+			);
+			name = PlayItRightStoreKit;
+			productName = PlayItRightStoreKit;
+			productReference = AA00000000000000000000C5 /* PlayItRightStoreKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		DD0000000000000000000001 /* PlayItRightCompanion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD000000000000000000000E /* Build configuration list for PBXNativeTarget "PlayItRightCompanion" */;
+			buildPhases = (
+				DD0000000000000000000003 /* Sources */,
+				DD0000000000000000000004 /* Frameworks */,
+				DD0000000000000000000005 /* Resources */,
+				DD0000000000000000000006 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD000000000000000000000A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				DD0000000000000000000009 /* Libraries/PlayItRightCompanion */,
+			);
+			name = PlayItRightCompanion;
+			productName = PlayItRightCompanion;
+			productReference = DD0000000000000000000002 /* PlayItRightCompanion.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DD000000000000000000000F /* PlayItRightCompanionTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD0000000000000000000019 /* Build configuration list for PBXNativeTarget "PlayItRightCompanionTests" */;
+			buildPhases = (
+				DD0000000000000000000011 /* Sources */,
+				DD0000000000000000000012 /* Frameworks */,
+				DD0000000000000000000013 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD0000000000000000000015 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				DD0000000000000000000014 /* PlayItRightCompanionTests */,
+			);
+			name = PlayItRightCompanionTests;
+			productName = PlayItRightCompanionTests;
+			productReference = DD0000000000000000000010 /* PlayItRightCompanionTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EE0000000000000000000001 /* PlayItRightMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE000000000000000000000E /* Build configuration list for PBXNativeTarget "PlayItRightMac" */;
+			buildPhases = (
+				EE0000000000000000000003 /* Sources */,
+				EE0000000000000000000004 /* Frameworks */,
+				EE0000000000000000000005 /* Resources */,
+				EE0000000000000000000006 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EE000000000000000000000A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				EE0000000000000000000009 /* Libraries/PlayItRightMac */,
+			);
+			name = PlayItRightMac;
+			productName = PlayItRightMac;
+			productReference = EE0000000000000000000002 /* PlayItRightMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EE0000000000000000000011 /* PlayItRightVision */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE000000000000000000001E /* Build configuration list for PBXNativeTarget "PlayItRightVision" */;
+			buildPhases = (
+				EE0000000000000000000013 /* Sources */,
+				EE0000000000000000000014 /* Frameworks */,
+				EE0000000000000000000015 /* Resources */,
+				EE0000000000000000000016 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EE000000000000000000001A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				EE0000000000000000000019 /* Libraries/PlayItRightVision */,
+			);
+			name = PlayItRightVision;
+			productName = PlayItRightVision;
+			productReference = EE0000000000000000000012 /* PlayItRightVision.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -599,6 +911,25 @@
 					AA0000000000000000000086 = {
 						CreatedOnToolsVersion = 27.1;
 					};
+					AA00000000000000000000B9 = {
+						CreatedOnToolsVersion = 27.1;
+					};
+					AA00000000000000000000C9 = {
+						CreatedOnToolsVersion = 27.1;
+					};
+					DD0000000000000000000001 = {
+						CreatedOnToolsVersion = 27.1;
+					};
+					DD000000000000000000000F = {
+						CreatedOnToolsVersion = 27.1;
+						TestTargetID = DD0000000000000000000001;
+					};
+					EE0000000000000000000001 = {
+						CreatedOnToolsVersion = 27.1;
+					};
+					EE0000000000000000000011 = {
+						CreatedOnToolsVersion = 27.1;
+					};
 				};
 			};
 			buildConfigurationList = 2EE1349A3093B89E00195768 /* Build configuration list for PBXProject "PlayItRight" */;
@@ -627,6 +958,12 @@
 				AA0000000000000000000051 /* MetadataKit */,
 				AA0000000000000000000061 /* SourceAdapters */,
 				AA0000000000000000000086 /* PlaybackKit */,
+				AA00000000000000000000B9 /* SyncKit */,
+				AA00000000000000000000C9 /* PlayItRightStoreKit */,
+				DD0000000000000000000001 /* PlayItRightCompanion */,
+				DD000000000000000000000F /* PlayItRightCompanionTests */,
+				EE0000000000000000000001 /* PlayItRightMac */,
+				EE0000000000000000000011 /* PlayItRightVision */,
 			);
 		};
 /* End PBXProject section */
@@ -677,6 +1014,36 @@
 			files = (
 			);
 		};
+		AA00000000000000000000BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		AA00000000000000000000CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		DD0000000000000000000005 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		DD0000000000000000000013 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		EE0000000000000000000005 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		EE0000000000000000000015 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -721,6 +1088,36 @@
 			);
 		};
 		AA0000000000000000000087 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		AA00000000000000000000BB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		AA00000000000000000000C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		DD0000000000000000000003 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		DD0000000000000000000011 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		EE0000000000000000000003 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		EE0000000000000000000013 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
 			);
@@ -817,6 +1214,46 @@
 			isa = PBXTargetDependency;
 			target = AA0000000000000000000031 /* CoreKit */;
 			targetProxy = AA000000000000000000009B /* PBXContainerItemProxy */;
+		};
+		AA00000000000000000000B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA00000000000000000000B9 /* SyncKit */;
+			targetProxy = AA00000000000000000000B4 /* PBXContainerItemProxy */;
+		};
+		AA00000000000000000000BD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA00000000000000000000B9 /* SyncKit */;
+			targetProxy = AA00000000000000000000B5 /* PBXContainerItemProxy */;
+		};
+		AA00000000000000000000CB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA00000000000000000000C9 /* PlayItRightStoreKit */;
+			targetProxy = AA00000000000000000000C3 /* PBXContainerItemProxy */;
+		};
+		AA00000000000000000000CC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA00000000000000000000C9 /* PlayItRightStoreKit */;
+			targetProxy = AA00000000000000000000C4 /* PBXContainerItemProxy */;
+		};
+		DD000000000000000000000A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA0000000000000000000011 /* LibraryCore */;
+			targetProxy = DD000000000000000000000B /* PBXContainerItemProxy */;
+		};
+		DD0000000000000000000015 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA0000000000000000000011 /* LibraryCore */;
+			targetProxy = DD0000000000000000000016 /* PBXContainerItemProxy */;
+		};
+		EE000000000000000000000A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA0000000000000000000011 /* LibraryCore */;
+			targetProxy = EE000000000000000000000B /* PBXContainerItemProxy */;
+		};
+		EE000000000000000000001A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA0000000000000000000011 /* LibraryCore */;
+			targetProxy = EE000000000000000000001B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -945,10 +1382,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PlayItRight.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = PlayItRight;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photo-video";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "PlayItRight connects to media servers and shares on your local network.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -973,10 +1414,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PlayItRight.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = PlayItRight;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photo-video";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "PlayItRight connects to media servers and shares on your local network.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1106,11 +1551,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.LibraryCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator macosx xros xrsimulator";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = 3;
+				TARGETED_DEVICE_FAMILY = "1,2,3";
 				TVOS_DEPLOYMENT_TARGET = 18.0;
 			};
 			name = Debug;
@@ -1135,11 +1585,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.LibraryCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator macosx xros xrsimulator";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = 3;
+				TARGETED_DEVICE_FAMILY = "1,2,3";
 				TVOS_DEPLOYMENT_TARGET = 18.0;
 			};
 			name = Release;
@@ -1434,6 +1889,334 @@
 			};
 			name = Release;
 		};
+		AA00000000000000000000BE /* Debug configuration for PBXNativeTarget "SyncKit" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.SyncKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+			};
+			name = Debug;
+		};
+		AA00000000000000000000BF /* Release configuration for PBXNativeTarget "SyncKit" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.SyncKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+			};
+			name = Release;
+		};
+		AA00000000000000000000CD /* Debug configuration for PBXNativeTarget "PlayItRightStoreKit" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.PlayItRightStoreKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+			};
+			name = Debug;
+		};
+		AA00000000000000000000CE /* Release configuration for PBXNativeTarget "PlayItRightStoreKit" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.PlayItRightStoreKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+			};
+			name = Release;
+		};
+		DD000000000000000000000C /* Debug configuration for PBXNativeTarget "PlayItRightCompanion" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.Companion;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DD000000000000000000000D /* Release configuration for PBXNativeTarget "PlayItRightCompanion" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.Companion;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		DD0000000000000000000017 /* Debug configuration for PBXNativeTarget "PlayItRightCompanionTests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.CompanionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DD0000000000000000000018 /* Release configuration for PBXNativeTarget "PlayItRightCompanionTests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.CompanionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EE000000000000000000000C /* Debug configuration for PBXNativeTarget "PlayItRightMac" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = PlayItRight;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photo-video";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.Mac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				SUPPORTED_PLATFORMS = "macosx";
+			};
+			name = Debug;
+		};
+		EE000000000000000000000D /* Release configuration for PBXNativeTarget "PlayItRightMac" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = PlayItRight;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photo-video";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.Mac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				SUPPORTED_PLATFORMS = "macosx";
+			};
+			name = Release;
+		};
+		EE000000000000000000001C /* Debug configuration for PBXNativeTarget "PlayItRightVision" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = PlayItRight;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.Vision;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		EE000000000000000000001D /* Release configuration for PBXNativeTarget "PlayItRightVision" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = PlayItRight;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NileCoder.PlayItRight.Vision;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1514,6 +2297,54 @@
 			buildConfigurations = (
 				AA000000000000000000008E /* Debug configuration for PBXNativeTarget "PlaybackKit" */,
 				AA000000000000000000008F /* Release configuration for PBXNativeTarget "PlaybackKit" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		AA00000000000000000000BA /* Build configuration list for PBXNativeTarget "SyncKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA00000000000000000000BE /* Debug configuration for PBXNativeTarget "SyncKit" */,
+				AA00000000000000000000BF /* Release configuration for PBXNativeTarget "SyncKit" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		AA00000000000000000000CF /* Build configuration list for PBXNativeTarget "PlayItRightStoreKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA00000000000000000000CD /* Debug configuration for PBXNativeTarget "PlayItRightStoreKit" */,
+				AA00000000000000000000CE /* Release configuration for PBXNativeTarget "PlayItRightStoreKit" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		DD000000000000000000000E /* Build configuration list for PBXNativeTarget "PlayItRightCompanion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD000000000000000000000C /* Debug configuration for PBXNativeTarget "PlayItRightCompanion" */,
+				DD000000000000000000000D /* Release configuration for PBXNativeTarget "PlayItRightCompanion" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		DD0000000000000000000019 /* Build configuration list for PBXNativeTarget "PlayItRightCompanionTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD0000000000000000000017 /* Debug configuration for PBXNativeTarget "PlayItRightCompanionTests" */,
+				DD0000000000000000000018 /* Release configuration for PBXNativeTarget "PlayItRightCompanionTests" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		EE000000000000000000000E /* Build configuration list for PBXNativeTarget "PlayItRightMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE000000000000000000000C /* Debug configuration for PBXNativeTarget "PlayItRightMac" */,
+				EE000000000000000000000D /* Release configuration for PBXNativeTarget "PlayItRightMac" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		EE000000000000000000001E /* Build configuration list for PBXNativeTarget "PlayItRightVision" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE000000000000000000001C /* Debug configuration for PBXNativeTarget "PlayItRightVision" */,
+				EE000000000000000000001D /* Release configuration for PBXNativeTarget "PlayItRightVision" */,
 			);
 			defaultConfigurationName = Release;
 		};

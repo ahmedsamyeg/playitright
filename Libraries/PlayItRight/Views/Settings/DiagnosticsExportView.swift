@@ -46,9 +46,10 @@ public struct DiagnosticsExportView: View {
 
             ForEach(includedItems, id: \.self) { item in
                 HStack(alignment: .top, spacing: DesignGrid.spacing(1)) {
-                    Text("•")
+                    Text(verbatim: "•")
                         .font(DesignTypography.body)
                         .foregroundStyle(DesignTokens.palette.textTertiary.color)
+                        .accessibilityHidden(true)
 
                     Text(item)
                         .font(DesignTypography.body)

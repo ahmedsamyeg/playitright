@@ -273,14 +273,14 @@ struct SubtitleEngineTests {
         do {
             _ = try SubtitleEngine(
                 data: Data(),
-                format: .vobsub
+                format: .other
             )
         } catch {
             failure = error
         }
         #expect(
             failure as? SubtitleParseError
-                == .unsupportedFormat(SubtitleFormat.vobsub.rawValue)
+                == .unsupportedFormat(SubtitleFormat.other.rawValue)
         )
     }
 

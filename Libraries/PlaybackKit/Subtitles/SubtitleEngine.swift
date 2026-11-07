@@ -58,6 +58,22 @@ public struct SubtitleEngine: Sendable {
             parser = ASSParser()
         case .pgs:
             parser = PGSParser()
+        case .microDVD:
+            parser = MicroDVDParser()
+        case .mpl2:
+            parser = MPL2Parser()
+        case .tmp:
+            parser = TMPParser()
+        case .txt:
+            parser = TMPlayerParser()
+        case .ttml, .movText:
+            parser = TimedTextParser()
+        case .vobsub:
+            parser = VobSubParser()
+        case .dvbsub:
+            parser = DVBSubtitleParser()
+        case .xsub:
+            parser = XSubParser()
         default:
             throw SubtitleParseError.unsupportedFormat(format.rawValue)
         }
