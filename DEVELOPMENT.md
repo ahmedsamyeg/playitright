@@ -1,6 +1,8 @@
 # DEVELOPMENT.md
 
-Everything a developer needs to build, test, and extend PlayItRight. For the
+Everything a developer needs to build, test, and extend PlayItRight. AI
+coding agents should start with [AGENTS.md](AGENTS.md), which encodes repo
+rules and known traps. For the
 product feature set see [README.md](README.md); for the requirement-level
 *what*, see [docs/specs/](docs/specs/README.md); for the task-by-task history,
 see [docs/development/IMPLEMENTATION_PLAN.md](docs/development/IMPLEMENTATION_PLAN.md).
