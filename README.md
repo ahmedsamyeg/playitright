@@ -78,6 +78,7 @@ All product code lives in six native framework targets inside the Xcode project;
 | Document | Contents |
 |---|---|
 | [DEVELOPMENT.md](DEVELOPMENT.md) | Developer guide: setup, commands, architecture, testing, history |
+| [AGENTS.md](AGENTS.md) | Instructions for AI coding agents working in this repo |
 | [docs/specs/README.md](<docs/specs/README.md>) | Spec index, requirement IDs, glossary |
 | [docs/specs/*.md](<docs/specs/README.md>) | Domain specs: product, architecture, sources, playback, metadata, UI, sync, business, NFRs, roadmap, database |
 | [docs/design/README.md](<docs/design/README.md>) | Design index (the *how*; the specs are the *what*) |
